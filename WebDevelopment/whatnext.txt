@@ -1,0 +1,23 @@
+Go to client/signup/page.jsx
+Update add another input called confirm_password
+
+Go to server/routes/signup.js
+Update req.body to use confirm_password
+Update the 'all fields required' check to include confirm_password
+
+Make a check that user_password === confirm_password
+return status(400) 'Passwords don't match
+
+Update both client (signup/page.jsx) and server (server/routes/signup.js)
+to use regular expression (regex)
+const regex = 'insert your validations here'
+make a check on both to make sure password is valid
+if (!regex.text(user_password))
+return status (400) is password does not meet Regex
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Make an element addining up all the tuition of the courses the user is enrolled in
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Maybe prevent the user from enrolling if capacity is already met
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Maybe a language and currency conversion select
