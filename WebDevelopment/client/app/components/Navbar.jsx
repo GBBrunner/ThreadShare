@@ -73,19 +73,9 @@ export default function Navbar({ isOpen = true, onToggle, onScrollCollapsedChang
             <NavLink href="/" icon={<FaHome />}>Home</NavLink>
 
             {!signed_in_user && (
-              <>
-                <div className="flex items-center gap-2">
-                  <FaRegUserCircle className="text-3xl" />
-                  <div className="flex flex-col gap-1">
-                    <NavLink href="/signup" pill>
-                      Sign Up
-                    </NavLink>
-                    <NavLink href="/login" pill>
-                      Login
-                    </NavLink>
-                  </div>
-                </div>
-              </>
+              <NavLink href="/login" icon={<FaRegUserCircle />}>
+                Login
+              </NavLink>
             )}
             {signed_in_user && (signed_in_user.user_role === "admin" || signed_in_user.user_role === "demo-admin") && (
               <>

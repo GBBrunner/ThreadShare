@@ -86,7 +86,7 @@ export default function LoginPage() {
                 </form>
             </div>
 
-            <a href="/signup">Don't have an account? Sign Up instead</a>
+            <a href="/signup">Don't have an account? <span className="text-indigo-600 hover:underline">Sign Up instead</span></a>
         </div>
     );
 }

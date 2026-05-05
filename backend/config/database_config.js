@@ -20,7 +20,7 @@ if (forceIpv4) {
 }
 
 // Enable SSL for production environments (Railway, Render.com, or when DB_SSL is set)
-if (DB_URL.includes('railway.app') || DB_URL.includes('render.com') || process.env.DB_SSL === 'true') {
+if (DB_URL.includes('railway.app') || DB_URL.includes('rlwy.net') || DB_URL.includes('render.com') || process.env.DB_SSL === 'true') {
   poolConfig.ssl = { rejectUnauthorized: false };
 }
 
