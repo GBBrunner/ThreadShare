@@ -5,3 +5,4 @@
 - **Frontend (Web Dev):** Hosted on Vercel. https://thread-share.vercel.app/
 - **Database:** Hosted on Railway (PostgreSQL). https://railway.com/project/08899281-e0a2-4fc9-a3da-020bc78cef8b?
 
+60/30/10
