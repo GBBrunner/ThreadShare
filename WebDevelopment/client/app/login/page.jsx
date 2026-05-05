@@ -55,13 +55,9 @@ export default function LoginPage() {
             }
 
             if (data?.user) {
-                const userWithRole = {
-                    ...data.user,
-                    user_role: data.user.user_role || 'user'
-                };
-                signIn(userWithRole, data.token);
+                signIn(data.user, data.token);
             } else {
-                signIn({ username: body.username, user_role: 'user' });
+                signIn({ username: body.username });
             }
             router.push('/dashboard');
         } catch (err) {

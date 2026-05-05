@@ -41,8 +41,7 @@ async function authenticateUser(username, password) {
     const token = jwt.sign(
         {
             user_id: userInfo.user_id,
-            username: userInfo.username,
-            user_role: userInfo.user_role
+            username: userInfo.username
         },
         process.env.JWT_SECRET || 'default_jwt_secret',
         { expiresIn: '3d' }
