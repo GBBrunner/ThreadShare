@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Woodland Community College",
-  description: "Student course registration and enrollment portal for Woodland Community College.",
+  title: "ThreadShare",
+  description: "An App for sharing clothing, and managing your wardrobe.",
 };
 
 export default function RootLayout({ children }) {
