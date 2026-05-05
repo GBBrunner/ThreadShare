@@ -9,8 +9,7 @@ if (forceIpv4) {
 }
 
 // Database connection configuration
-// Using Supabase as primary database
-const DB_URL = process.env.SUPABASE_DB_URL || process.env.DB_URL || 'postgresql://postgres:postgres@localhost:5432/postgres';
+const DB_URL = process.env.RAILWAY_DB_URL || process.env.DB_URL || 'postgresql://postgres:postgres@localhost:5432/postgres';
 const poolConfig = {
   connectionString: DB_URL,
 };
@@ -20,8 +19,8 @@ if (forceIpv4) {
   poolConfig.family = 4;
 }
 
-// Enable SSL for production environments (Supabase, Render.com, or when DB_SSL is set)
-if (DB_URL.includes('supabase.co') || DB_URL.includes('pooler.supabase.com') || DB_URL.includes('render.com') || process.env.DB_SSL === 'true') {
+// Enable SSL for production environments (Railway, Render.com, or when DB_SSL is set)
+if (DB_URL.includes('railway.app') || DB_URL.includes('render.com') || process.env.DB_SSL === 'true') {
   poolConfig.ssl = { rejectUnauthorized: false };
 }
 
