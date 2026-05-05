@@ -9,7 +9,7 @@ if (forceIpv4) {
 }
 
 // Database connection configuration
-const DB_URL = process.env.RAILWAY_DB_URL || process.env.DB_URL || 'postgresql://postgres:postgres@localhost:5432/postgres';
+const DB_URL = process.env.RAILWAY_DATABASE_PUBLIC_URL || process.env.RAILWAY_DB_URL || process.env.DB_URL || 'postgresql://postgres:postgres@localhost:5432/postgres';
 const poolConfig = {
   connectionString: DB_URL,
 };
