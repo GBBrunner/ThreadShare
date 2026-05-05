@@ -30,7 +30,7 @@ export default function LoginPage() {
         setError('');
         setSuccess('');
             const formData = new FormData(e.target);
-            body = Object.fromEntries(formData.entries());
+            const body = Object.fromEntries(formData.entries());
         try {
             setIsLoading(true);
             const res = await fetch(`${SERVER_URL}/api/login/${type}`, {
