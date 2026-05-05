@@ -1,0 +1,2 @@
+[      48ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/server-side%20images/homepage/home-img-1.jpg:0
+[    3113ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/45042b2edb02f2ea.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/:0

@@ -1,0 +1,31 @@
+user_id,first_name,last_name,username,email,password_hash,user_role,created_at,updated_at,student_id
+550e8400-e29b-41d4-a716-446655440001,Julian,Rivera,jrivera,j.rivera_92@example.com,$2b$12$LQvPHiMmcX5WjGvO9Z.xO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,101
+550e8400-e29b-41d4-a716-446655440002,Elena,Schmidt,eschmidt,elena.s.test@dummymail.org,$2b$12$D6o7K9hR3mN2vP4sL1q8uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,102
+550e8400-e29b-41d4-a716-446655440003,Marcus,Chen,mchen,mchen_dev@provider.net,$2b$12$K9#vP2!zLq8*Gv9&tY3#kP6!uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,103
+550e8400-e29b-41d4-a716-446655440004,Amara,Okafor,aokafor,amara.ok@example.com,$2b$12$Zp5*mQ8@sR2$jH1!fD9%kL4^uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,104
+550e8400-e29b-41d4-a716-446655440005,Silas,Varga,svarga,varga.silas@testmail.io,$2b$12$Wq7#vB3&nM0*cX2$zR9!pY5@uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,105
+550e8400-e29b-41d4-a716-446655440006,Naomi,Tanaka,ntanaka,n.tanaka88@dummy.com,$2b$12$mL6^nH1*jK4#fS3@gD8!hJ2%uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,106
+550e8400-e29b-41d4-a716-446655440007,Alistair,Thorne,athorne,thorne_a_secure@example.net,$2b$12$vN5*mQ1#zR7^bR2$yT9&pW4!uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,107
+550e8400-e29b-41d4-a716-446655440008,Priya,Kapoor,pkapoor,priya.k_test@mailgen.org,$2b$12$kP8#sX3@mN1%tY4^fG9!vB2*uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,108
+550e8400-e29b-41d4-a716-446655440009,Desmond,Miles,dmiles,d_miles_99@example.com,$2b$12$dJ1@kL7#sR5$zW9&mX3!pQ8^uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,109
+550e8400-e29b-41d4-a716-446655440010,Fiona,Gallagher,fgallagher,fiona.g_dev@test.com,$2b$12$nG4*hK2#fD7@sR1%vN9!kL3*uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,110
+550e8400-e29b-41d4-a716-446655440011,Kieran,O’Shea,koshea,koshea_user@dummymail.net,$2b$12$pY5$zW2^mQ8#bX7@nR1!tY4&uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,111
+550e8400-e29b-41d4-a716-446655440012,Lyra,Belacqua,lbelacqua,l.belacqua@example.org,$2b$12$kL3#jH9%sP2*vM8^fD4!zR1@uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,112
+550e8400-e29b-41d4-a716-446655440013,Hugo,Reyes,hreyes,hreyes_85@provider.io,$2b$12$tW2$kP7#mN5&nY1!sX9*hG3^uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,113
+550e8400-e29b-41d4-a716-446655440014,Clara,Oswald,coswald,clara.o_test@example.com,$2b$12$dK4@mQ8#bR2%zR7^tY1!fD9*uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,114
+550e8400-e29b-41d4-a716-446655440015,Soren,Kierk,skierk,soren.k_dev@dummy.net,$2b$12$pW3$nL5&kH1@jK9#vB2!sR7^uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,115
+550e8400-e29b-41d4-a716-446655440016,Maya,Angelou,mangelou,m.angelou_90@testmail.org,$2b$12$mX4*zW1@pQ8$hG2%nY9!kL5#uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,116
+550e8400-e29b-41d4-a716-446655440017,Arthur,Dent,adent,a_dent_42@example.io,$2b$12$fD7^sR3*vM1&bR4$nW7^mX1@uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,117
+550e8400-e29b-41d4-a716-446655440018,Inaya,Khan,ikhan,khan.inaya@dummymail.com,$2b$12$K9#vP2!zLq8*Gv9&tY3#kP6!uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,118
+550e8400-e29b-41d4-a716-446655440019,Mateo,Silva,msilva,m.silva_dev@test.net,$2b$12$Zp5*mQ8@sR2$jH1!fD9%kL4^uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,119
+550e8400-e29b-41d4-a716-446655440020,Elara,Vance,evance,vance.e_87@example.org,$2b$12$Wq7#vB3&nM0*cX2$zR9!pY5@uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,120
+550e8400-e29b-41d4-a716-446655440021,Jasper,Finch,jfinch,jfinch_test@provider.com,$2b$12$mL6^nH1*jK4#fS3@gD8!hJ2%uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,121
+550e8400-e29b-41d4-a716-446655440022,Zara,Quinn,zquinn,z.quinn_dev@dummy.io,$2b$12$vN5*mQ1#zR7^bR2$yT9&pW4!uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,122
+550e8400-e29b-41d4-a716-446655440023,Otto,Wagner,owagner,wagner.o_93@example.com,$2b$12$kP8#sX3@mN1%tY4^fG9!vB2*uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,123
+550e8400-e29b-41d4-a716-446655440024,Seraphina,Frost,sfrost,s.frost_user@testmail.net,$2b$12$dJ1@kL7#sR5$zW9&mX3!pQ8^uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,124
+550e8400-e29b-41d4-a716-446655440025,Callum,Lynch,clynch,clynch_dev@dummy.org,$2b$12$nG4*hK2#fD7@sR1%vN9!kL3*uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,125
+550e8400-e29b-41d4-a716-446655440026,Talia,Al Ghul,talghul,talia.ag88@example.com,$2b$12$pY5$zW2^mQ8#bX7@nR1!tY4&uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,126
+550e8400-e29b-41d4-a716-446655440027,Felix,Lighter,flighter,f.lighter_test@provider.net,$2b$12$kL3#jH9%sP2*vM8^fD4!zR1@uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,127
+550e8400-e29b-41d4-a716-446655440028,Beatrice,Portinari,bportinari,b_portinari@dummymail.io,$2b$12$tW2$kP7#mN5&nY1!sX9*hG3^uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,128
+550e8400-e29b-41d4-a716-446655440029,Gideon,Nav,gnav,g.nav_dev@example.org,$2b$12$dK4@mQ8#bR2%zR7^tY1!fD9*uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,129
+550e8400-e29b-41d4-a716-446655440030,Esmeralda,Santiago,esantiago,e.santiago_91@test.com,$2b$12$pW3$nL5&kH1@jK9#vB2!sR7^uO.1G3V9zX4Z2,student,2026-02-18 23:15:00,2026-02-18 23:15:00,130

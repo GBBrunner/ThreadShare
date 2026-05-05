@@ -29,18 +29,8 @@ export default function LoginPage() {
         e.preventDefault && e.preventDefault();
         setError('');
         setSuccess('');
-
-        let body;
-        if (type === "demo-stu") {
-            body = { username: "demo-stu", password: "demo-stu" };
-        } else if (type === "demo-admin") {
-            body = { username: "demo-admin", password: "demo-admin" };
-        } else {
-            // Only use FormData for the main login form
             const formData = new FormData(e.target);
             body = Object.fromEntries(formData.entries());
-        }
-
         try {
             setIsLoading(true);
             const res = await fetch(`${SERVER_URL}/api/login/${type}`, {
@@ -98,20 +88,6 @@ export default function LoginPage() {
                         type="submit">Login
                     </button>
                 </form>
-                <div className="flex flex-col gap-4 justify-center bg-slate-100 w-64 rounded-t-xs rounded-b-lg p-4 border-b-4 text-black border-emerald-500">
-                    <button 
-                        className="bg-emerald-600 text-white border-b-4 border-emerald-900 px-4 py-2 rounded hover:bg-emerald-500 hover:border-emerald-800 mb-2 w-full"
-                        onClick={(e) => handleSubmit(e, "demo-stu")}
-                    >
-                        Login as Demo Student
-                    </button>
-                    <button 
-                        className="bg-rose-600 text-white border-b-4 border-rose-900 px-4 py-2 rounded hover:bg-rose-500 hover:border-rose-800 w-full"
-                        onClick={(e) => handleSubmit(e, "demo-admin")}
-                    >
-                        Login as Demo Admin
-                    </button>
-                </div>
             </div>
 
             <a href="/signup">Don't have an account? Sign Up instead</a>
