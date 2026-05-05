@@ -24,7 +24,7 @@ export default function ImageCarousel({ images }) {
     };
 
     return(
-        <div className="imgWrap w-full h-150 overflow-hidden flex justify-center items-center relative bg-black">
+        <div className="imgWrap all-pages-style h-150 overflow-hidden flex justify-center items-center relative bg-black">
             <motion.button onClick={handleClickDown} className="absolute left-5 top-1/2 font-bold text-6xl cursor-pointer text-white pb-3 px-4" initial={{ backgroundColor: 'transparent', color: 'rgba(255, 255, 255, 0.61)' }} whileHover={{ backgroundColor: 'rgba(60, 60, 60, 0.35)', color: 'rgba(255, 255, 255, 1)' }}>{'<'}</motion.button>
            <motion.img key={currentIndex} src={images[currentIndex]} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7 }} className="w-full" />
             <motion.button onClick={handleClickUp} className="absolute right-5 top-1/2 font-bold text-6xl cursor-pointer text-white pb-3 px-4" initial={{ backgroundColor: 'transparent', color: 'rgba(255, 255, 255, 0.61)' }} whileHover={{ backgroundColor: 'rgba(60, 60, 60, 0.35)', color: 'rgba(255, 255, 255, 1)' }}>{'>'}</motion.button>

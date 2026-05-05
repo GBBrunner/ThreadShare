@@ -41,7 +41,6 @@ export default function SignupPage() {
     setError(''); setSuccess('')
     // This form is made in a way that the input names match the expected keys in the server's req.body
     const formData = new FormData(e.target)
-    console.log('Form Data:', Object.fromEntries(formData.entries())); // Log form data for debugging
     const body = Object.fromEntries(formData.entries())
     // Validate password client-side before making the network request
     if (!ValidatePassword(body.user_password)) {
@@ -81,10 +80,8 @@ export default function SignupPage() {
     }
   }
   return (
-    <>
-    {isLoading && <LoadingScreen />}
-    <div className="headerSpace"></div>
-    <main className="flex flex-col items-center all-pages-style gap-4">
+    <div className="flex flex-col items-center gap-4 py-20">
+      {isLoading && <LoadingScreen />}
       <ToastContainer />
       <form
         className="bg-slate-100 w-64 rounded-t-xs rounded-b-lg p-4 border-b-4 text-black border-emerald-500"
@@ -104,7 +101,6 @@ export default function SignupPage() {
         {success && <p className="text-green-600 mt-2">{success}</p>} */}
       </form>
       <a href="/login">Already have an account? Login instead</a>
-    </main>
-    </>
+    </div>
   )
 }

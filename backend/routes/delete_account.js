@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('../config/database_config');
 const authenticateToken = require('../middleware/auth');
+const { isAdminRole } = require('../utils/roles');
 const router = express.Router();
 
 // DELETE /api/delete_account
@@ -11,7 +12,7 @@ router.delete('/delete_account', authenticateToken, async (req, res) => {
     return res.status(400).json({ error: 'Username required' });
   }
   // Only allow deleting your own account unless you are an admin
-  if (req.user.username !== username && req.user.user_role !== 'admin') {
+  if (req.user.username !== username && !isAdminRole(req.user.user_role)) {
     return res.status(403).json({ error: 'You can only delete your own account.' });
   }
   try {

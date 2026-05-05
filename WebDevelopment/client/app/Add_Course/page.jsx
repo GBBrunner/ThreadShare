@@ -48,14 +48,14 @@ export default function Add_Course() {
         <ProtectedRoute 
             isLoggedIn={!!signed_in_user}
             userRole={signed_in_user?.user_role}
-            requiredRole="admin"
+            requiredRole={["Admin", "demo-admin"]}
         >
             {isLoading && <LoadingScreen />}
-            <div className="headerSpace"></div>
-            <ToastContainer />
-            <form className="bg-slate-100 w-80 rounded-t-xs rounded-b-lg p-4 border-b-4 text-black border-black"
-                onSubmit={handleSubmit}
-            >
+            <div className="flex justify-center items-center py-20">
+                <ToastContainer />
+                <form className="bg-slate-100 w-80 rounded-t-xs rounded-b-lg p-4 border-b-4 text-black border-black"
+                    onSubmit={handleSubmit}
+                >
                 <h2 className="text-2xl font-bold mb-6">Add a New Course</h2>
                 <FormInput inputName="*Course Code"         inputValue="course_code"    required={true} />
                 <FormInput inputName="*Course Title"        inputValue="course_title"   required={true} />
@@ -66,6 +66,7 @@ export default function Add_Course() {
                 <FormInput inputName="Tuition Cost $"       inputValue="tuition_cost"   inputType="number" />
                 <button type="submit" className="w-full bg-content-1 text-white py-2 rounded hover:bg-emerald-700">Add Course</button>
             </form>
+            </div>
         </ProtectedRoute>
     );
 }

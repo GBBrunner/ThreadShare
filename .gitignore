@@ -1,3 +1,5 @@
 node_modules
 .env
 .vercel
+Render.env
+Vercel.env

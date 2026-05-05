@@ -13,15 +13,12 @@ const ValidatePassword = (password) => {
   return passwordRegex.test(password);
 }
 router.post('/signup', async (req, res) => {
-  console.log('a test');
   try {
     // This matches the table columns in PostgreSQL
     const { first_name, last_name, username, email, user_password } = req.body;
     if (!first_name || !last_name || !username || !email || !user_password) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
-    // Give the new user a unique ID and (for now) store their raw password
-    // In a real app you should hash this with bcrypt or similar
     // sanitize username
     if (!ValidatePassword(user_password)) {
       return res.status(400).json({ message: 'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.' });

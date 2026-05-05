@@ -7,17 +7,29 @@ const ProtectedRoute = ({ isLoggedIn, userRole, requiredRole, children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if the user is logged in
     if (!isLoggedIn) {
       router.replace("/login");
+      return;
     }
-      // If a required role is specified, check if the user has that role
-    if (requiredRole && userRole !== requiredRole) {
-      router.replace("/403-Unauthorized"); // Redirect to an unauthorized page or any other page
+
+    if (requiredRole) {
+      const allowedRoles = Array.isArray(requiredRole)
+        ? requiredRole
+        : [requiredRole];
+
+      const normalizedUserRole = userRole?.toString().trim().toLowerCase();
+      const normalizedAllowedRoles = allowedRoles.map(role =>
+        role.toString().trim().toLowerCase()
+      );
+
+      if (!normalizedAllowedRoles.includes(normalizedUserRole)) {
+        router.replace("/403-Unauthorized");
+      }
     }
   }, [isLoggedIn, userRole, requiredRole, router]);
 
   if (!isLoggedIn) return null;
+
   return children;
 };
 

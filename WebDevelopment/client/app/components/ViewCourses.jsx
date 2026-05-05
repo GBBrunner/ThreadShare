@@ -1,10 +1,12 @@
 'use client';
-
-import ProtectedRoute from "@/app/components/ProtectedRoute";
-import SelectCourse from '@/app/components/SelectCourse';
-import Searchbar from "@/app/components/Searchbar";
-import LoadingScreen from "@/app/components/LoadingScreen";
-import ListLabel from '@/app/components/ListLabel';
+// Components
+import ProtectedRoute from  "@/app/components/ProtectedRoute";
+import SelectCourse from    '@/app/components/SelectCourse';
+import Searchbar from       "@/app/components/Searchbar";
+import LoadingScreen from   "@/app/components/LoadingScreen";
+import ListLabel from       '@/app/components/ListLabel'
+// Hooks and utils;
+import { useTheme } from '@/app/hooks/useTheme';
 import { useEffect, useState } from "react";
 import { useAuth } from '@/app/auth/useAuth';
 import { SERVER_URL, getAuthHeaders } from '@/lib/config';
@@ -14,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css'
 export default function ViewCourses({ method, endpoint, mode = "enroll" }) {
     const isMyCoursesMode = mode === "my_courses";
     const { signed_in_user } = useAuth();
+    const theme = useTheme();
     const [isLoading, setIsLoading] = useState(false);
     // State to hold the list of courses fetched from the server
     const [courses, setCourses] = useState([]);
@@ -108,16 +111,16 @@ export default function ViewCourses({ method, endpoint, mode = "enroll" }) {
     const totalTuition = filteredCourses.reduce((sum, course) => sum + (Number(course.tuition_cost) || 0), 0);
 
     return (
-        // Only users with the role "student" can access this page
         <ProtectedRoute
             isLoggedIn={!!signed_in_user}
             userRole={signed_in_user?.user_role}
-            requiredRole="student"
+            requiredRole={["student", "demo-student"]}
         >
             {isLoading && <LoadingScreen />}
-            <div className="headerSpace"></div>
             <main className="flex justify-center mt-4">
-            <div className="h-[calc(100vh-10em)] rounded-2xl text-slate-700 bg-white overflow-hidden flex flex-col p-4 mb-4 justify-center">
+                        <div className={
+                            `h-[calc(100vh-0em)] rounded-2xl bg-content-2 overflow-hidden flex flex-col p-4 mb-4 justify-center`
+                        }>
                 <h1 className="text-2xl font-bold mb-4">{isMyCoursesMode ? 'My Courses' : 'Enroll Page'}</h1>
                 <form className="flex flex-col flex-1 min-h-0"
                  onSubmit={isMyCoursesMode ? (e) => e.preventDefault() : handleSubmit}>
@@ -138,57 +141,63 @@ export default function ViewCourses({ method, endpoint, mode = "enroll" }) {
                     {/* Courses List Labels, I am sure there is a better way to do this dynamically 
                     It is functional though
                     */}
-                    <div className="max-h-[60vh] overflow-y-auto space-y-4 pr-2">
-                        <div className="flex items-start gap-4 overflow-hidden px-2">
+                    <div className="max-h-[80vh] overflow-y-auto pr-2">
+                        <div className="flex items-start gap-2 md:gap-4 overflow-hidden px-2 mb-4">
                             {!isMyCoursesMode && <div className="w-8" />}
-                            <div className="flex flex-1 items-start gap-4 overflow-hidden">
-                                <ListLabel width={28} value="Course Code" />
-                                <ListLabel width={56} value="Course Title" />
-                                <ListLabel width={104} value="Course Description" />
-                                <ListLabel width={28} value="Room Number" center />
-                                <ListLabel width={16} value="Capacity" center />
-                                <ListLabel width={16} value="Credits" center />
-                                <ListLabel width={36} value="Tuition Cost (USD)" center nowrap />
-                                <ListLabel width={28} value="Created At" />
-                                <ListLabel width={28} value="Updated At" />
-                                <ListLabel width={44} value="Instructor" />
+                            <div className="flex flex-1 items-start gap-2 md:gap-4 overflow-hidden">
+                                <ListLabel value="Course Code" widthClass="hidden sm:block w-24 md:w-28 shrink-0" />
+                                <ListLabel value="Code" widthClass="sm:hidden w-24 shrink-0" />
+                                <ListLabel value="Course Title" widthClass="min-w-0 flex-1 md:w-56 md:flex-none" />
+                                <ListLabel value="Course Description" widthClass="hidden xl:block w-104" />
+                                <ListLabel value="Room Number" center widthClass="hidden lg:block w-28" />
+                                <ListLabel value="Capacity" center widthClass="hidden lg:block w-16" />
+                                <ListLabel value="Credits" center widthClass="hidden sm:block w-16 shrink-0" />
+                                <ListLabel value="Tuition Cost (USD)" center nowrap widthClass="hidden md:block w-36 shrink-0" />
+                                <ListLabel value="Created At" widthClass="hidden 2xl:block w-28" />
+                                <ListLabel value="Updated At" widthClass="hidden 2xl:block w-28" />
+                                <ListLabel value="Instructor" widthClass="hidden xl:block w-44" />
                             </div>
                         </div>
                         {/* Filtered Courses List, when search term is applied */}
                         {filteredCourses.length > 0 ? (
                             // Map through the courses array and display a SelectCourse component for each course in the database
                             // For every course in the course table in the PostgreSQL database
-                            filteredCourses.map((course, index) => (
-                                <SelectCourse
-                                    key={index}
-                                    course_id={course.course_id}
-                                    // Display the correlating course info in the DB.
-                                    // Technically, the only ones needed for enrollment are course_id and course_code,
-                                    // but it improves the UX to show all the course info
-                                    course_code={course.course_code}
-                                    course_title={course.course_title}
-                                    course_desc={course.course_desc || 'No description given'}
-                                    room_number={course.room_number || 'TBA'}
-                                    capacity={course.capacity || 0}
-                                    credits={course.credits || 0}
-                                    tuition_cost={course.tuition_cost ? `$${course.tuition_cost}` : 'TBA'}
-                                    created_at={course.created_at || 'N/A'}
-                                    updated_at={course.updated_at || 'N/A'}
-                                    instructor={course.instructor || 'TBA'}
-                                    // Use enriched response flag if present
-                                    is_enrolled={isMyCoursesMode || !!(course.is_enrolled ?? course.enrolled ?? course.already_enrolled)}
-                                    signed_in_user={signed_in_user}
-                                    setCourses={setCourses}
-                                    SERVER_URL={SERVER_URL}
-                                    mode={mode}
-                                />
-                            ))
+                            <div className="flex flex-col">
+                                {filteredCourses.map((course, index) => (
+                                    <SelectCourse
+                                        key={course.course_id ?? index}
+                                        course_id={course.course_id}
+                                        // Display the correlating course info in the DB.
+                                        // Technically, the only ones needed for enrollment are course_id and course_code,
+                                        // but it improves the UX to show all the course info
+                                        course_code={course.course_code}
+                                        course_title={course.course_title}
+                                        course_desc={course.course_desc || 'No description given'}
+                                        room_number={course.room_number || 'TBA'}
+                                        capacity={course.capacity || 0}
+                                        credits={course.credits || 0}
+                                        tuition_cost={course.tuition_cost ? `$${course.tuition_cost}` : 'TBA'}
+                                        created_at={course.created_at || 'N/A'}
+                                        updated_at={course.updated_at || 'N/A'}
+                                        instructor={course.instructor || 'TBA'}
+                                        // Use enriched response flag if present
+                                        is_enrolled={isMyCoursesMode || !!(course.is_enrolled ?? course.enrolled ?? course.already_enrolled)}
+                                        signed_in_user={signed_in_user}
+                                        setCourses={setCourses}
+                                        SERVER_URL={SERVER_URL}
+                                        mode={mode}
+                                    />
+                                ))}
+                            </div>
                         ) : (
                             <p className="text-gray-500">{isMyCoursesMode ? 'You are not enrolled in any courses' : 'No courses available'}</p>
                         )}
                     </div>
                     {!isMyCoursesMode && (
-                        <button type="submit" className="mt-4 bg-emerald-500 text-white px-4 py-2 rounded">
+                        <button
+                            type="submit"
+                            className={`mt-4 text-white px-4 py-2 rounded ${theme === 'dark' ? 'bg-cyan-900' : 'bg-emerald-500'}`}
+                        >
                             Add Courses
                         </button>
                     )}

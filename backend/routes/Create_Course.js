@@ -24,7 +24,7 @@ router.post('/Add_Course', authenticateToken, requireAdmin, async (req, res) => 
     // Enforce uppercase and default for room_number
     course_code = (course_code || '').toUpperCase();
     room_number = (room_number && room_number.trim() !== '' ? room_number : 'TBA').toUpperCase();
-//literally whatever
+
     // Parse numbers
     capacity = parseInt(capacity) || 15;
     credits = parseInt(credits) || 1;
@@ -44,6 +44,8 @@ router.post('/Add_Course', authenticateToken, requireAdmin, async (req, res) => 
     const result = await pool.query(query, [course_id, course_code, course_title, course_desc, room_number, capacity, credits, tuition_cost, created_at, updated_at]);
     if (accept.includes('application/json')) {
       return res.status(201).json({ message: 'Course added successfully.', course: result.rows[0] });
+    } else {
+      return res.redirect(303, redirectTo);
     }
 } catch (err) {
     console.error('Error adding course:', err);

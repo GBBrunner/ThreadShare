@@ -3,7 +3,7 @@ Made by Garrett Brunner and Chase Olson
 
 Client Side uses NextJS and is hosted on Vercel
 Server Side uses Express and CORS and is hosted on Render, server side is authicated, and passwords are hashed using bycyrpt
-PostgreSQL Database is stored on Supabase
+PostgreSQL Database is stored on Railway
 
 ### Student Registration App
 Synopsis: A web app to register and view courses. Users that are signed in can apply for courses and see what Courses they have, they can remove courses at anytime. 
@@ -31,13 +31,13 @@ npm run dev
 ```
 ### Local PostgreSQL (development)
 In production you would use a 3rd party to store your data
-This project Supabase, but Render and firebase work as well
+This project uses Railway for PostgreSQL hosting, but Render and other providers work as well
 - Docker (recommended):
 ```bash
 docker run --name student-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -p 5432:5432 -d postgres:15
 ```
 
-- Notes: The app's default connection string is `postgresql://postgres:postgres@localhost:5432/postgres`. To use a different database or credentials, set the `DB_URL` or `SUPABASE_DB_URL` environment variable before starting the server. Run the SQL files in the `PostgreSQL/schemas` directory to create required tables when needed.
+- Notes: The app's default connection string is `postgresql://postgres:postgres@localhost:5432/postgres`. To use a different database or credentials, set the `DATABASE_URL` environment variable before starting the server. Run the SQL files in the `PostgreSQL/schemas` directory to create required tables when needed.
 
 ### Schemas
 Schemas of the tables created can be found in the directory /PostgreSQL. It has proper prameters to stage proper values being accepted by the database.
@@ -61,5 +61,5 @@ When a user signs up, it automatically assigns the role 'student' to them they h
 On their dashboard page they can view their Username, student_id and user_id. (student Ids are no longer randomly generated, but rather sequential instead)
 
 ## Admin-Side
-If you have access to the PostgreSQL database (on Supabase) you can manually update a user's role to Admin. The project uses protected routes so only admins can see
+If you have access to the PostgreSQL database (on Railway) you can manually update a user's role to Admin. The project uses protected routes so only admins can see
 An Admin can create course, view/edit student info (WIP), and Create a student account (WIP). Admins can also unenroll a student from a course if needed. (WIP)

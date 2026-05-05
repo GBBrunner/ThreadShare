@@ -1,17 +1,24 @@
 const { Pool } = require('pg');
 const dns = require('dns');
 
-// Force IPv4 DNS resolution to avoid IPv6 connection issues on Render
-dns.setDefaultResultOrder('ipv4first');
+// Some environments (e.g. certain Render setups) can have issues with IPv6.
+// Do NOT force IPv4 by default though, because some managed DB hosts may be IPv6-only.
+const forceIpv4 = String(process.env.PG_FORCE_IPV4 || '').toLowerCase() === 'true';
+if (forceIpv4) {
+  dns.setDefaultResultOrder('ipv4first');
+}
 
 // Database connection configuration
 // Using Supabase as primary database
 const DB_URL = process.env.SUPABASE_DB_URL || process.env.DB_URL || 'postgresql://postgres:postgres@localhost:5432/postgres';
 const poolConfig = {
   connectionString: DB_URL,
-  // Force IPv4 connection
-  family: 4,
 };
+
+if (forceIpv4) {
+  // Force IPv4 connection
+  poolConfig.family = 4;
+}
 
 // Enable SSL for production environments (Supabase, Render.com, or when DB_SSL is set)
 if (DB_URL.includes('supabase.co') || DB_URL.includes('pooler.supabase.com') || DB_URL.includes('render.com') || process.env.DB_SSL === 'true') {

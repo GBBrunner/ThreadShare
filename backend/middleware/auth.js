@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 /**
- * Middleware: verifies the JWT in the Authorization header.
+ * Middleware: verifies the JWT in the Authorization Header.
  * Attaches the decoded payload to req.user on success.
  * Returns 401 if the token is missing or invalid.
  */

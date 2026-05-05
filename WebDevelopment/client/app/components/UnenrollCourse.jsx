@@ -52,10 +52,11 @@ export default function UnenrollCourse({
                     return prev.filter(c => c.course_id !== course_id);
                 }
             });
-            toast.success('Successfully removed course from My Courses');
+            toast.success('Successfully removed course!');
         } catch (error) {
             console.error('Error occurred while trying to unenroll:', error);
             toast.error('Failed to unenroll from course.');
+            setIsLoading(false);
         } finally {
             setIsLoading(false);
         }

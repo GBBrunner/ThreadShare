@@ -6,16 +6,33 @@ const path = require('path')
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const app = express();
-// CORS (Cross-Origin Resource Sharing) is used to allow requests from different origins
-app.use(cors());
+const clientURL = process.env.CLIENT_URL || 'http://localhost:3000';
+
+// CORS (Cross-Origin Resource Sharing) - allow requests from the client origin(s)
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  process.env.CLIENT_URL,           // set on Render if needed
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman) and any matching origin
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: origin ${origin} not allowed`));
+    }
+  },
+  credentials: true,
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3005;
 
 app.get("/", (req, res) => {
-  // Make sure you have bothe the client and server running
-  res.send("This is the server side. To visit the client, go to localhost:3000");
+  res.send(`This is the server side. To visit the client, go to <a href="${clientURL}">${clientURL}</a>`);
 });
 const routes = require("./router");;
 app.use(routes);

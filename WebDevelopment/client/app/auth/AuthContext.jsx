@@ -1,11 +1,20 @@
 'use client'
-import React, { createContext, useState, useEffect, use } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext({
     signed_in_user: null,
     signIn: () => {},
     signOut: () => {}
 });
+
+function isTokenExpired(token) {
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.exp && payload.exp * 1000 < Date.now();
+    } catch {
+        return true;
+    }
+}
 
 export function AuthProvider({ children }) {
     const [signed_in_user, setUser] = useState(null);
@@ -14,11 +23,25 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         try {
             const raw = localStorage.getItem("signed_in_user");
-            if (raw) setUser(JSON.parse(raw));
+            const token = localStorage.getItem("auth_token");
+            if (raw && token && !isTokenExpired(token)) {
+                setUser(JSON.parse(raw));
+            } else if (raw || token) {
+                // Token is expired or missing — clear stale session
+                localStorage.removeItem("signed_in_user");
+                localStorage.removeItem("auth_token");
+            }
         } catch (err) {
             console.error('Failed to parse signed_in_user from localStorage:', err);
         }
         setLoading(false);
+    }, []);
+
+    // Listen for 401 responses fired by fetchWithAuth in config.js
+    useEffect(() => {
+        const handleExpired = () => signOut();
+        window.addEventListener('auth:signout', handleExpired);
+        return () => window.removeEventListener('auth:signout', handleExpired);
     }, []);
 
     const signIn = (user, token) => {

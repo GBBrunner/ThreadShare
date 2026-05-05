@@ -1,13 +1,55 @@
 @import "tailwindcss";
 
-:root {
+/* Tailwind v4: tie `dark:` utilities to our theme toggle (html[data-theme]) */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Theme-aware gradient with smooth cross-fade (gradient itself doesn't transition reliably) */
+.theme-gradient {
+  position: relative;
+  isolation: isolate;
+  @apply bg-gradient-to-br from-sky-200 to-indigo-500;
+}
+
+.theme-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-in-out;
+  @apply bg-gradient-to-br from-cyan-800 to-indigo-900;
+}
+
+html[data-theme='dark'] .theme-gradient::before {
+  opacity: 1;
+}
+
+.theme-gradient > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Theme primitives (controlled by html[data-theme]) */
+:root,
+html[data-theme='light'] {
   --background: #ffffff;
   --foreground: #171717;
 
-  --background-2 : #F1F9DC;
+  --background-2: oklch(86.9% 0.022 252.894);
 
-  --content-background: #07742B;
-  --content-background-2: #433937;
+  --content-background: #1d4ed8;
+  --content-background-2: #eff6ff;
+}
+
+html[data-theme='dark'] {
+  --background: #0b0f14;
+  --foreground: #e5e7eb;
+
+  --background-2: #0f172a;
+
+  --content-background: #0b5d23;
+  --content-background-2: #1f2937;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -20,6 +62,12 @@
 * {
   box-sizing: border-box;
   margin: 0;
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out, border-color 0.4s ease-in-out, fill 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+}
+
+/* Specific transitions for interactions (faster than theme switch) */
+button, a, input, select {
+  transition: all 0.2s ease-in-out;
 }
 
 body {
@@ -47,17 +95,23 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
+/* Remove underline from all links by default */
 a {
   color: inherit;
   text-decoration: none;
 }
 
-a:hover {
+/* Only underline the navlink text on hover */
+/* .navlink-text {
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+} */
+/* .navlink-text:hover {
   text-decoration: underline;
   text-decoration-color: white;
-  text-decoration-thickness: 2px; /* or 'thick' */
+  text-decoration-thickness: 2px;
   text-underline-offset: 0.5em;
-}
+} */
 
 @media (max-width: 858px) {
   .introTextBox {
@@ -82,17 +136,31 @@ a:hover {
 .px-4 { padding-left: 1rem; padding-right: 1rem; }
 .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
 .rounded { border-radius: 0.5rem; }
+.hover\:bg-blue-400:hover { background-color: #60a5fa; }
 .hover\:bg-blue-500:hover { background-color: #3b82f6; }
 .hover\:border-blue-800:hover { border-color: #1e40af; }
 .bg-1 { background-color: var(--background); }
 .bg-2 { background-color: var(--background-2); }
 .bg-content-1 { background-color: var(--content-background); }
 .bg-content-2 { background-color: var(--content-background-2); }
-.headerSpace {
-  height: 6.5em;
+
+/* Theme-aware logo swap */
+.theme-logo--light { display: inline-block; }
+.theme-logo--dark { display: none; }
+html[data-theme='dark'] .theme-logo--light { display: none; }
+html[data-theme='dark'] .theme-logo--dark { display: inline-block; }
+.NavbarSpace {
+  width: 12.5em;
+  flex-shrink: 0;
 }
 
 /* Universal Page styles */
 .all-pages-style {
-  min-height: calc(100vh - 21rem);
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Utility to remove all transitions */
+.transition-none {
+  transition: none !important;
 }
