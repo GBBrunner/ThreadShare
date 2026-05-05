@@ -100,7 +100,7 @@ export default function SignupPage() {
         {/* {error && <p className="text-red-600 mt-2">{error}</p>}
         {success && <p className="text-green-600 mt-2">{success}</p>} */}
       </form>
-      <a href="/login">Already have an account? Login instead</a>
+      <a href="/login">Already have an account? <span className="text-indigo-600">Login instead</span> </a>
     </div>
   )
 }
