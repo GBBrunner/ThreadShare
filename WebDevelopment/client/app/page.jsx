@@ -1,7 +1,6 @@
 'use client';
 
 import ImageCarousel from "./components/ImageCarousel";
-import ProjectStack from "./components/ProjectStack";
 import { motion } from 'motion/react';
 import { useTheme } from './hooks/useTheme';
 export default function Home() {
