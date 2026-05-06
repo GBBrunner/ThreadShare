@@ -22,8 +22,10 @@ const OCCASIONS = ['formal', 'business', 'casual', 'everyday', 'vacation', 'work
 
 export default function NewPostModal({ onClose }) {
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedOccasions, setSelectedOccasions] = useState([]);
+  const [error, setError] = useState("");
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
@@ -31,9 +33,10 @@ export default function NewPostModal({ onClose }) {
 
     const remainingSlots = 5 - imagePreviews.length;
     const filesToAdd = files.slice(0, remainingSlots);
-    
+
     const newPreviews = filesToAdd.map(file => URL.createObjectURL(file));
     setImagePreviews(prev => [...prev, ...newPreviews]);
+    setImageFiles(prev => [...prev, ...filesToAdd]);
   };
 
   const toggleOccasion = (occ) => {
@@ -44,28 +47,37 @@ export default function NewPostModal({ onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Add logic here to grab your other input values if needed
+    setError("");
+
+    const form = e.currentTarget;
+    const formData = new FormData();
+    formData.append("title", form["post-title"].value);
+    formData.append("description", form["post-description"].value);
+    formData.append("brand", form["post-brand"].value);
+    formData.append("size", form["post-size"].value);
+    formData.append("category", form["post-category"].value);
+    formData.append("condition", form["post-condition"].value);
+    formData.append("color", selectedColor);
+    formData.append("occasions", JSON.stringify(selectedOccasions));
+    imageFiles.forEach(file => formData.append("images", file));
+
     try {
-      const response = await fetch("/NewPost", {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/new_post`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          color: selectedColor,
-          occasions: selectedOccasions,
-          // other form payload fields
-        }),
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
       });
 
       if (response.ok) {
-        onClose(); // close modal on success
+        onClose();
       } else {
-        console.error("Failed to submit post");
+        const data = await response.json();
+        setError(data.message || "Failed to submit post.");
       }
-    } catch (error) {
-      console.error("Error submitting post:", error);
+    } catch (err) {
+      console.error("Error submitting post:", err);
+      setError("Something went wrong. Please try again.");
     }
   };
 
@@ -250,6 +262,9 @@ export default function NewPostModal({ onClose }) {
             </div>
           </div>
 
+          {error && (
+            <p className="text-red-500 text-sm">{error}</p>
+          )}
           <div className="mt-2 flex justify-end gap-3 border-t border-gray-100 pt-4">
             <button
               type="button"

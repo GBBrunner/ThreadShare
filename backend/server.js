@@ -46,7 +46,5 @@ const routes = require("./router");
 app.use(routes);
 
 app.listen(PORT, () => {
-  // In dev mode, this will be on localhost:`{PORT}`
-  // In production it should be the deployed URL
   console.log(`Server listening on http://localhost:${PORT}`);
 });
