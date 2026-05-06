@@ -40,7 +40,7 @@ async function authenticateUser(username, password) {
     // Issue a signed JWT so the client can authenticate subsequent requests
     const token = jwt.sign(
         {
-            user_id: userInfo.user_id,
+            id: userInfo.id,
             username: userInfo.username
         },
         process.env.JWT_SECRET || 'default_jwt_secret',

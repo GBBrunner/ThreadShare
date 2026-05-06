@@ -10,10 +10,6 @@ import LogOut from "@/app/components/LogOut";
 import NavLink from "@/app/components/NavLink";
 // React Icons
 import { FaHome, FaRegUserCircle } from "react-icons/fa";
-import { BsPersonFillAdd } from         "react-icons/bs";
-import { TiFolderAdd } from             "react-icons/ti";
-import { MdOutlineClass } from          "react-icons/md";
-import { PiStudentBold } from           "react-icons/pi";
 import { MdMenuOpen } from 'react-icons/md';
 
 export default function Navbar({ isOpen = true, onToggle, onScrollCollapsedChange }) {
@@ -76,29 +72,6 @@ export default function Navbar({ isOpen = true, onToggle, onScrollCollapsedChang
               <NavLink href="/login" icon={<FaRegUserCircle />}>
                 Login
               </NavLink>
-            )}
-            {signed_in_user && (signed_in_user.user_role === "admin" || signed_in_user.user_role === "demo-admin") && (
-              <>
-                <NavLink href="/Register-Student" icon={<BsPersonFillAdd />}>
-                  Register Student
-                </NavLink>
-                <NavLink href="/Add_Course" icon={<TiFolderAdd />}>
-                  Add a Course
-                </NavLink>
-                <NavLink href="/View_Students" icon={<PiStudentBold />}>
-                  View Students
-                </NavLink>
-              </>
-            )}
-            {signed_in_user && (signed_in_user.user_role === "student" || signed_in_user.user_role === "demo-student") && (
-              <>
-                <NavLink href="/Enroll" icon={<TiFolderAdd />}>
-                  Enroll in Courses
-                </NavLink>
-                <NavLink href="/My_Courses" icon={<MdOutlineClass />}>
-                  My Courses
-                </NavLink>
-              </>
             )}
           </div>
             <div className="mt-auto border-t-2 border-emerald-700/50 p-4 flex flex-col gap-4">

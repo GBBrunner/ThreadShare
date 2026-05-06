@@ -88,8 +88,8 @@ export default function SignupPage() {
         onSubmit={handleSubmit}
       >
         <h1>Sign Up Page</h1>
-        <FormInput inputValue="first_name"    inputName="First Name" />
-        <FormInput inputValue="last_name"     inputName="Last Name" />
+        <FormInput inputValue="firstname"    inputName="First Name" />
+        <FormInput inputValue="lastname"     inputName="Last Name" />
         <FormInput inputValue="username"      inputName="Username" />
         <FormInput inputValue="email"         inputType="email"    inputName="Email" />
         <FormInput inputValue="user_password" inputType="password" inputName="Password" />

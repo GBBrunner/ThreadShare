@@ -9,7 +9,7 @@ import ProtectedRoute from "@/app/components/ProtectedRoute";
 import LoadingScreen from "@/app/components/LoadingScreen";
 import CopyField from "@/app/components/CopyField";
 import { motion } from 'motion/react';
-import { FaUserCircle, FaShieldAlt, FaCalendarAlt } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import DashboardInfoCard from "@/app/components/DashboardInfoCard";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,21 +19,15 @@ export default function Dashboard() {
   const { signed_in_user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const isDemoUser = signed_in_user && (signed_in_user.user_role === 'demo-admin' || signed_in_user.user_role === 'demo-student');
   return (
     <ProtectedRoute isLoggedIn={signed_in_user !== null}>
       {isLoading && <LoadingScreen />}
       <ToastContainer />
       <div className="NavbarSpace "></div>
-      <main className="flex-1 flex items-center justify-center p-4 min-h-[calc(100vh-0em)] 
+      <main className="flex-1 flex items-center justify-center p-4 min-h-[calc(100vh-0em)]
       theme-gradient">
         <div className="flex w-full justify-center items-center flex-col">
-          {isDemoUser && (
-            <div className="mb-6 flex items-center justify-center w-full">
-              <span className="bg-gray-100/80 text-gray-700 px-4 py-2 rounded shadow text-base">All data in this project is test data, none of it reflects real data.</span>
-            </div>
-          )}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -43,7 +37,7 @@ export default function Dashboard() {
               <FaUserCircle className="text-7xl mb-4 text-blue-600 dark:text-blue-400" />
               <h1 className="text-4xl font-black text-center uppercase tracking-tight">
                 {signed_in_user
-                  ? `${signed_in_user.first_name ?? ''} ${signed_in_user.last_name ?? ''}`.trim()
+                  ? `${signed_in_user.firstname ?? ''} ${signed_in_user.lastname ?? ''}`.trim() || signed_in_user.username
                   : 'User Profile'}
               </h1>
               <div className="h-1 w-24 bg-blue-600 dark:bg-blue-400 rounded-full mt-2"></div>
@@ -51,24 +45,15 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
               <DashboardInfoCard label="Username" value={signed_in_user?.username}/>
-              <DashboardInfoCard label="Role" value={signed_in_user?.user_role}/>
+              <DashboardInfoCard label="Display Name" value={signed_in_user?.displayName}/>
+              <DashboardInfoCard label="Email" value={signed_in_user?.email}/>
+              <DashboardInfoCard label="City" value={signed_in_user?.city}/>
+              <DashboardInfoCard label="Followers" value={signed_in_user?.followerCount ?? 0}/>
+              <DashboardInfoCard label="Following" value={signed_in_user?.followingCount ?? 0}/>
 
-              <CopyField 
-                label="User ID" 
-                value={signed_in_user?.user_id} 
-              />
-
-              <CopyField 
-                label="Student ID" 
-                value={signed_in_user?.student_id} 
-              />
-
-              <DashboardInfoCard
-                icon={<FaCalendarAlt />}
-                label="Account Created"
-                value={signed_in_user?.created_at
-                  ? new Date(signed_in_user.created_at).toLocaleLongDateString?.() || new Date(signed_in_user.created_at).toLocaleDateString()
-                  : 'N/A'}
+              <CopyField
+                label="User ID"
+                value={signed_in_user?.id}
                 className="md:col-span-2"
               />
             </div>
