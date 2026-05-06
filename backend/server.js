@@ -45,6 +45,12 @@ app.get("/", (req, res) => {
 const routes = require("./router");
 app.use(routes);
 
+// Catch-all error handler — always return JSON instead of Express's default HTML page
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  res.status(err.status || 500).json({ message: err.message || 'Internal server error.' });
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });

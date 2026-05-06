@@ -62,7 +62,7 @@ export default function NewPostModal({ onClose }) {
     imageFiles.forEach(file => formData.append("images", file));
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("auth_token");
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/new_post`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
@@ -72,8 +72,12 @@ export default function NewPostModal({ onClose }) {
       if (response.ok) {
         onClose();
       } else {
-        const data = await response.json();
-        setError(data.message || "Failed to submit post.");
+        let message = "Failed to submit post.";
+        try {
+          const data = await response.json();
+          message = data.message || message;
+        } catch {}
+        setError(message);
       }
     } catch (err) {
       console.error("Error submitting post:", err);
