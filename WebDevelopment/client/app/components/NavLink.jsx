@@ -20,7 +20,7 @@ export default function NavLink({
     >
       <div 
         className={`flex items-start gap-4 px-4 py-3 rounded-[2rem] transition-colors duration-200 
-          ${selected ? "bg-white/20" : "bg-transparent"}`}
+          ${selected ? "bg-secondary" : "bg-transparent"}`}
       >
         {icon && (
           <span className="shrink-0 text-3xl mt-0.5 opacity-90">

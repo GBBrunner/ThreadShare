@@ -22,7 +22,7 @@ export default function ToggleTheme() {
         
         <button
             type="button"
-            className="px-6 py-3 w-full text-lg rounded-xl font-bold bg-emerald-700 text-white hover:bg-emerald-600 transition-colors"
+            className="px-6 py-3 w-full text-lg rounded-xl font-bold bg-accent-dark text-white hover:bg-secondary transition-colors"
             onClick={toggleTheme}
             >
             Theme: {theme}

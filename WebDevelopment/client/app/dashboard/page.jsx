@@ -277,7 +277,7 @@ export default function Dashboard() {
                     <button
                       type="button"
                       onClick={() => setEditing(true)}
-                      className="w-full px-6 py-3 rounded-xl font-bold bg-accent text-white hover:bg-accent-dark transition-colors flex items-center justify-center gap-2"
+                      className="w-full px-6 py-3 rounded-xl font-bold bg-secondary text-foreground hover:bg-secondary-light transition-colors flex items-center justify-center gap-2"
                     >
                       <FaPencilAlt size={14} /> Edit Profile
                     </button>
@@ -298,7 +298,7 @@ export default function Dashboard() {
                     <button
                       type="button"
                       onClick={handleSave}
-                      className="w-full px-6 py-3 rounded-xl font-bold bg-accent text-white hover:bg-accent-dark transition-colors"
+                      className="w-full px-6 py-3 rounded-xl font-bold bg-secondary text-foreground hover:bg-secondary-light transition-colors"
                     >
                       Save Changes
                     </button>

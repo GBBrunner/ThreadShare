@@ -150,12 +150,18 @@ a {
 .bg-content-2 { background-color: var(--content-background-2); }
 
 /* Accent utilities */
+.bg-secondary-light { background-color: #EDD3C6; }
+.hover\:bg-secondary-light:hover { background-color: #EDD3C6; }
 .bg-accent { background-color: #7FA8AC; }
 .bg-accent-dark { background-color: #4A7E82; }
 .text-accent { color: #7FA8AC; }
 .text-accent-dark { color: #4A7E82; }
 .border-b-accent { border-bottom-color: #7FA8AC; }
 .border-b-accent-dark { border-bottom-color: #4A7E82; }
+.text-foreground { color: var(--foreground); }
+.hover\:text-white:hover { color: #fff; }
+.hover\:bg-accent:hover { background-color: #7FA8AC; }
+.hover\:bg-secondary:hover { background-color: #DFB9A6; }
 .hover\:bg-accent-dark:hover { background-color: #4A7E82; }
 .focus\:ring-accent:focus { box-shadow: 0 0 0 3px #7FA8AC40; }
 

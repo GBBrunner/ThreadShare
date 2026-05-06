@@ -38,7 +38,7 @@ export default function Navbar({ isOpen = true, onToggle, onScrollCollapsedChang
 
   return (
     <motion.aside
-      className="h-full w-[min(18rem,85vw)] lg:w-[12.5em] fixed bg-emerald-800 top-0 left-0 z-50 text-white content-center rounded-r-lg lg:rounded-r-none lg:rounded-tr-lg shadow-2xl lg:shadow-none"
+      className="h-full w-[min(18rem,85vw)] lg:w-[12.5em] fixed bg-accent top-0 left-0 z-50 text-white content-center rounded-r-lg lg:rounded-r-none lg:rounded-tr-lg shadow-2xl lg:shadow-none"
       animate={{
         x: isOpen ? 0 : "-100%",
       }}
@@ -74,7 +74,7 @@ export default function Navbar({ isOpen = true, onToggle, onScrollCollapsedChang
               </NavLink>
             )}
           </div>
-            <div className="mt-auto border-t-2 border-emerald-700/50 p-4 flex flex-col gap-4">
+            <div className="mt-auto border-t-2 border-white/20 p-4 flex flex-col gap-4">
               {signed_in_user && (
                   <LogOut />
               )}

@@ -6,7 +6,7 @@ export default function LogOut({ className = '', ...props }) {
         window.location.href = '/login'; // Redirect to login page after logout
     }
     return (
-        <button className='px-6 py-3 w-full text-lg rounded-xl font-bold bg-emerald-700 text-white hover:bg-emerald-600 transition-colors' onClick={handleSignOut} {...props}>
+        <button className='px-6 py-3 w-full text-lg rounded-xl font-bold bg-accent-dark text-white hover:bg-secondary transition-colors' onClick={handleSignOut} {...props}>
             Log Out
         </button>
     );

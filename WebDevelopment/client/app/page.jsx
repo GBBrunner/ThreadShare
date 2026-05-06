@@ -1,11 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import ImageCarousel from "./components/ImageCarousel";
 import ThemedLogo from "./components/ThemedLogo";
 
 export default function Home() {
-  const carouselDir = path.join(process.cwd(), 'public', 'img-carousel');
-  const images = fs.readdirSync(carouselDir).map(file => `/img-carousel/${file}`);
+
 
   return (
     <>
@@ -17,7 +13,6 @@ export default function Home() {
 
           </div>
       </div>
-      <ImageCarousel images={images} />
       <div className="flex flex-col items-center all-pages-style theme-gradient">
       </div>
     </main>
