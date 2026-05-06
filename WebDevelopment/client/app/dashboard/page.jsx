@@ -134,7 +134,7 @@ export default function Dashboard() {
                     }`.trim() || signed_in_user.username
                   : "User Profile"}
               </h1>
-              <div className="h-1 w-24 bg-accent dark:bg-accent-dark rounded-full mt-2"></div>
+              <div className="h-1 w-32 bg-secondary dark:bg-secondary-dark rounded-full mt-2"></div>
             </div>
 
             {/* Info view */}
@@ -164,7 +164,7 @@ export default function Dashboard() {
 
                 <div className="md:col-span-3">
                   <div className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
-                    <div className="flex items-center gap-3 mb-3 text-accent dark:text-accent-dark font-bold uppercase text-xs tracking-wider">
+                    <div className="flex font-extrabold font-items-center gap-3 mb-3 text-accent dark:text-accent-dark uppercase text-xs tracking-wider">
                       Style Interests
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -172,7 +172,7 @@ export default function Dashboard() {
                         signed_in_user.styleInterests.map((interest, idx) => (
                           <span
                             key={idx}
-                            className="bg-accent dark:bg-accent-dark text-white dark:text-black px-3 py-1 rounded-full text-sm font-medium"
+                            className="font-bold bg-secondary text-foreground px-3 py-1 rounded-full text-sm font-medium"
                           >
                             {interest}
                           </span>
@@ -185,7 +185,7 @@ export default function Dashboard() {
                 </div>
                 <div className="md:col-span-3">
                   <div className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
-                    <div className="flex items-center gap-3 mb-3 text-accent dark:text-accent-dark font-bold uppercase text-xs tracking-wider">
+                    <div className="flex items-center gap-3 mb-3 text-accent dark:text-accent-dark font-extrabold uppercase text-xs tracking-wider">
                       Favorite Brands
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -193,7 +193,7 @@ export default function Dashboard() {
                         signed_in_user.favoriteBrands.map((brand, idx) => (
                           <span
                             key={idx}
-                            className="bg-accent dark:bg-accent-dark text-white dark:text-black px-3 py-1 rounded-full text-sm font-medium"
+                            className="font-bold bg-secondary text-foreground px-3 py-1 rounded-full text-sm font-medium"
                           >
                             {brand}
                           </span>

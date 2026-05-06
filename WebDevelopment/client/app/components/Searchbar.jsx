@@ -10,7 +10,7 @@ export default function Searchbar({ searchTerm, setSearchTerm, placeholder = "Se
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="p-2 border rounded w-full"
             />
-            <FaSearch className="absolute right-3 top-3 text-emerald-800" />
+            <FaSearch className="absolute right-3 top-3 text-bg-accent" />
         </div>
     );
 }

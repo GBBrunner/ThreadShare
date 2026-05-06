@@ -73,14 +73,14 @@ export default function LoginPage() {
             <ToastContainer />
             <div className="flex justify-center items-center gap-10">
                 <form
-                    className="bg-slate-100 w-64 rounded-t-xs rounded-b-lg p-4 border-b-4 text-black border-emerald-500"
+                    className="bg-slate-100 w-64 rounded-t-xs rounded-b-lg p-4 border-b-4 text-black "
                     onSubmit={handleSubmit}
                 >
                     <h1>Login Page</h1>
                     <FormInput inputValue="username" inputName="Username" />
                     <FormInput inputValue="password" inputType="password" inputName="Password" />
                     {success && <p className="text-green-600 text-sm mt-2">{success}</p>}
-                    <button className="bg-emerald-600 text-white border-b-4 border-emerald-900 px-4 py-2 rounded hover:bg-emerald-500 hover:border-emerald-800"
+                    <button className="bg-accent text-white border-b-4 border-emerald-900 px-4 py-2 rounded hover:bg-emerald-500 hover:border-bg-accent"
                         type="submit">Login
                     </button>
                 </form>

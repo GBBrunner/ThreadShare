@@ -94,7 +94,7 @@ export default function SignupPage() {
         <FormInput inputValue="email"         inputType="email"    inputName="Email" />
         <FormInput inputValue="user_password" inputType="password" inputName="Password" />
         <br />
-        <button className="bg-emerald-600 text-white border-b-4 border-emerald-900 px-4 py-2 rounded hover:bg-emerald-500 hover:border-emerald-800"
+        <button className="bg-emerald-600 text-white border-b-4 border-emerald-900 px-4 py-2 rounded hover:bg-emerald-500 hover:border-bg-accent"
           type="submit">Sign Up
         </button>
         {/* {error && <p className="text-red-600 mt-2">{error}</p>}
