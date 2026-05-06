@@ -40,6 +40,14 @@ router.patch('/update_user_info', authenticateToken, async (req, res) => {
                 });
             }
 
+            // Convert string to array for styleInterests and favoriteBrands
+            if ((field === 'styleInterests' || field === 'favoriteBrands') && typeof value === 'string') {
+                value = value
+                    .split(',')
+                    .map(item => item.trim())
+                    .filter(item => item.length > 0);
+            }
+
             setClauses.push(`${column} = $${paramCount}`);
             values.push(value || null);
             paramCount++;
