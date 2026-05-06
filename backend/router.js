@@ -4,10 +4,12 @@ const router = express.Router();
 // Basically any route that will need to fetch or post data to the databse
 const loginRouter = require('./routes/login');
 const signupRouter = require('./routes/signup');
+const updateUserInfoRouter = require('./routes/update_user_info');
 // const deleteAccountRouter = require('./routes/delete_account');
 
 router.use('/api', loginRouter);
 router.use('/api', signupRouter);
+router.use('/api', updateUserInfoRouter);
 // router.use('/api', deleteAccountRouter);
 
 module.exports = router;
