@@ -6,14 +6,16 @@ const router = express.Router();
 
 // Maps request body field names to their exact PostgreSQL column names
 const FIELD_TO_COLUMN = {
-    firstname:   'firstname',
-    lastname:    'lastname',
-    displayName: '"displayName"',
-    bio:         'bio',
-    city:        'city',
-    username:    'username',
-    email:       'email',
-    visibility:  'visibility',
+    firstname:        'firstname',
+    lastname:         'lastname',
+    displayName:      '"displayName"',
+    bio:              'bio',
+    city:             'city',
+    username:         'username',
+    email:            'email',
+    visibility:       'visibility',
+    styleInterests:   '"styleInterests"',
+    favoriteBrands:   '"favoriteBrands"',
 };
 
 const VALID_VISIBILITY = ['publicProfile', 'privateProfile', 'friendsOnly'];

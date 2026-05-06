@@ -30,12 +30,12 @@ export default function CopyField({
   return (
     <div className={`bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5 group relative ${className}`}>
       <div className="flex items-center justify-between mb-1">
-        <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 font-bold uppercase text-xs tracking-wider">
+        <div className="flex items-center gap-3 text-accent dark:text-accent-dark font-bold uppercase text-xs tracking-wider">
           {Icon && <Icon />} {label}
         </div>
         <button 
           onClick={handleCopy}
-          className="p-2 hover:bg-blue-600/10 rounded-lg transition-colors text-blue-600 dark:text-blue-400 group-hover:opacity-100 opacity-0 md:opacity-0 focus:opacity-100 cursor-pointer"
+          className="p-2 hover:bg-accent/10 rounded-lg transition-colors text-accent dark:text-accent-dark group-hover:opacity-100 opacity-0 md:opacity-0 focus:opacity-100 cursor-pointer"
           title={`Copy ${label}`}
         >
           <FaCopy size={14} />

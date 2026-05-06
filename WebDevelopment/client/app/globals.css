@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Brand color tokens — generates bg-primary, text-secondary, border-accent, etc. */
+@theme {
+  --color-primary: #F6EFEA;
+  --color-secondary: #DFB9A6;
+  --color-accent: #7FA8AC;
+  --color-primary-dark: #1C1210;
+  --color-secondary-dark: #2E1C15;
+  --color-accent-dark: #4A7E82;
+}
+
 /* Tailwind v4: tie `dark:` utilities to our theme toggle (html[data-theme]) */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
@@ -7,7 +17,7 @@
 .theme-gradient {
   position: relative;
   isolation: isolate;
-  @apply bg-gradient-to-br from-sky-200 to-indigo-500;
+  @apply bg-gradient-to-br from-white to-accent;
 }
 
 .theme-gradient::before {
@@ -18,7 +28,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease-in-out;
-  @apply bg-gradient-to-br from-cyan-800 to-indigo-900;
+  @apply bg-gradient-to-br from-primary-dark to-accent-dark;
 }
 
 html[data-theme='dark'] .theme-gradient::before {
@@ -33,23 +43,23 @@ html[data-theme='dark'] .theme-gradient::before {
 /* Theme primitives (controlled by html[data-theme]) */
 :root,
 html[data-theme='light'] {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F6EFEA;
+  --foreground: #2D1B14;
 
-  --background-2: oklch(86.9% 0.022 252.894);
+  --background-2: #EDE0D8;
 
-  --content-background: #1d4ed8;
-  --content-background-2: #eff6ff;
+  --content-background: #7FA8AC;
+  --content-background-2: #F6EFEA;
 }
 
 html[data-theme='dark'] {
-  --background: #0b0f14;
-  --foreground: #e5e7eb;
+  --background: #1C1210;
+  --foreground: #F2EAE5;
 
-  --background-2: #0f172a;
+  --background-2: #2E1C15;
 
-  --content-background: #0b5d23;
-  --content-background-2: #1f2937;
+  --content-background: #4A7E82;
+  --content-background-2: #1C1210;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -129,20 +139,25 @@ a {
 .text-center { text-align: center; }
 .text-red-600 { color: #dc2626; }
 .text-green-600 { color: #16a34a; }
-.bg-blue-600 { background-color: #2563eb; }
 .text-white { color: #fff; }
 .border-b-4 { border-bottom-width: 4px; }
-.border-blue-900 { border-color: #1e3a8a; }
 .px-4 { padding-left: 1rem; padding-right: 1rem; }
 .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
 .rounded { border-radius: 0.5rem; }
-.hover\:bg-blue-400:hover { background-color: #60a5fa; }
-.hover\:bg-blue-500:hover { background-color: #3b82f6; }
-.hover\:border-blue-800:hover { border-color: #1e40af; }
 .bg-1 { background-color: var(--background); }
 .bg-2 { background-color: var(--background-2); }
 .bg-content-1 { background-color: var(--content-background); }
 .bg-content-2 { background-color: var(--content-background-2); }
+
+/* Accent utilities */
+.bg-accent { background-color: #7FA8AC; }
+.bg-accent-dark { background-color: #4A7E82; }
+.text-accent { color: #7FA8AC; }
+.text-accent-dark { color: #4A7E82; }
+.border-b-accent { border-bottom-color: #7FA8AC; }
+.border-b-accent-dark { border-bottom-color: #4A7E82; }
+.hover\:bg-accent-dark:hover { background-color: #4A7E82; }
+.focus\:ring-accent:focus { box-shadow: 0 0 0 3px #7FA8AC40; }
 
 /* Theme-aware logo swap */
 .theme-logo--light { display: inline-block; }
