@@ -163,16 +163,46 @@ export default function Dashboard() {
                 />
 
                 <div className="md:col-span-3">
-                  <DashboardInfoCard
-                    label="Style Interests"
-                    value={signed_in_user?.styleInterests || "Not provided"}
-                  />
+                  <div className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
+                    <div className="flex items-center gap-3 mb-3 text-accent dark:text-accent-dark font-bold uppercase text-xs tracking-wider">
+                      Style Interests
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {Array.isArray(signed_in_user?.styleInterests) && signed_in_user.styleInterests.length > 0 ? (
+                        signed_in_user.styleInterests.map((interest, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-accent dark:bg-accent-dark text-white dark:text-black px-3 py-1 rounded-full text-sm font-medium"
+                          >
+                            {interest}
+                          </span>
+                        ))
+                      ) : (
+                        <p className="text-base font-semibold opacity-90">Not provided</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className="md:col-span-3">
-                  <DashboardInfoCard
-                    label="Favorite Brands"
-                    value={signed_in_user?.favoriteBrands || "Not provided"}
-                  />
+                  <div className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5">
+                    <div className="flex items-center gap-3 mb-3 text-accent dark:text-accent-dark font-bold uppercase text-xs tracking-wider">
+                      Favorite Brands
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {Array.isArray(signed_in_user?.favoriteBrands) && signed_in_user.favoriteBrands.length > 0 ? (
+                        signed_in_user.favoriteBrands.map((brand, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-accent dark:bg-accent-dark text-white dark:text-black px-3 py-1 rounded-full text-sm font-medium"
+                          >
+                            {brand}
+                          </span>
+                        ))
+                      ) : (
+                        <p className="text-base font-semibold opacity-90">Not provided</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-1 md:col-span-3">
                   <label className="text-xs font-bold uppercase tracking-wider text-accent dark:text-accent-dark">
