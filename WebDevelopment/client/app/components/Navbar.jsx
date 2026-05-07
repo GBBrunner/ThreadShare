@@ -9,7 +9,7 @@ import ToggleTheme from "@/app/components/ToggleTheme";
 import LogOut from "@/app/components/LogOut";
 import NavLink from "@/app/components/NavLink";
 // React Icons
-import { FaHome, FaRegUserCircle } from "react-icons/fa";
+import { FaHome, FaRegUserCircle, FaImages } from "react-icons/fa";
 import { MdMenuOpen } from "react-icons/md";
 import NewPostModal from "@/app/components/NewPostModal";
 import { RiAddBoxFill } from "react-icons/ri";
@@ -69,6 +69,9 @@ export default function Navbar({
                 <div className="flex flex-col items-start gap-2">
                   <NavLink href="/dashboard" icon={<FaRegUserCircle />}>
                     {signed_in_user.username}'s Dashboard
+                  </NavLink>
+                  <NavLink href="/my-photos" icon={<FaImages />}>
+                    My Photos
                   </NavLink>
                   <button
                     className="px-6 py-3 w-full text-lg rounded-xl font-bold border-b-accent-dark bg-accent-dark text-white hover:bg-secondary transition-colors flex items-center gap-2"

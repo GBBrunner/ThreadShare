@@ -1,6 +1,7 @@
 "use client";
 import { FiUpload } from "react-icons/fi";
 import { useState } from "react";
+import { SERVER_URL } from "@/lib/config";
 
 const COLORS = [
   { name: 'Red', class: 'bg-red-500' },
@@ -20,23 +21,25 @@ const COLORS = [
 
 const OCCASIONS = ['formal', 'business', 'casual', 'everyday', 'vacation', 'work', 'gym', 'sports', 'party', 'swimwear', 'outerwear', 'other'];
 
-export default function NewPostModal({ onClose }) {
-  const [imagePreviews, setImagePreviews] = useState([]);
+// post prop is provided when editing an existing post; onSaved is called with the updated post
+export default function NewPostModal({ onClose, post = null, onSaved }) {
+  const isEditing = !!post;
+
+  const [imagePreviews, setImagePreviews] = useState(post?.images ?? []);
   const [imageFiles, setImageFiles] = useState([]);
-  const [selectedColor, setSelectedColor] = useState("");
-  const [selectedOccasions, setSelectedOccasions] = useState([]);
+  const [selectedColor, setSelectedColor] = useState(post?.color ?? "");
+  const [selectedOccasions, setSelectedOccasions] = useState(post?.occasions ?? []);
   const [error, setError] = useState("");
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
-    const remainingSlots = 5 - imagePreviews.length;
-    const filesToAdd = files.slice(0, remainingSlots);
-
+    const filesToAdd = files.slice(0, 5);
     const newPreviews = filesToAdd.map(file => URL.createObjectURL(file));
-    setImagePreviews(prev => [...prev, ...newPreviews]);
-    setImageFiles(prev => [...prev, ...filesToAdd]);
+    // Replacing all previews/files when new ones are chosen in edit mode
+    setImagePreviews(newPreviews);
+    setImageFiles(filesToAdd);
   };
 
   const toggleOccasion = (occ) => {
@@ -63,16 +66,22 @@ export default function NewPostModal({ onClose }) {
 
     try {
       const token = localStorage.getItem("auth_token");
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/new_post`, {
-        method: "POST",
+      const url = isEditing
+        ? `${SERVER_URL}/api/posts/${post.id}`
+        : `${SERVER_URL}/api/new_post`;
+
+      const response = await fetch(url, {
+        method: isEditing ? "PATCH" : "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
 
       if (response.ok) {
-        onClose();
+        const data = await response.json();
+        if (isEditing && onSaved) onSaved(data.post);
+        else onClose();
       } else {
-        let message = "Failed to submit post.";
+        let message = isEditing ? "Failed to update post." : "Failed to submit post.";
         try {
           const data = await response.json();
           message = data.message || message;
@@ -89,7 +98,7 @@ export default function NewPostModal({ onClose }) {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="relative bg-white rounded-lg shadow-xl p-5 w-full max-w-2xl mx-4 max-h-[95vh] overflow-y-auto">
-        <h2 className="text-xl font-bold mb-3">New Post</h2>
+        <h2 className="text-xl font-bold mb-3">{isEditing ? "Edit Post" : "New Post"}</h2>
         <button
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl leading-none"
           onClick={onClose}
@@ -98,49 +107,42 @@ export default function NewPostModal({ onClose }) {
         </button>
         <form className="text-gray-400 flex flex-col gap-3" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-1">
-            <label htmlFor="post-title" className="font-medium">
-              Title
-            </label>
+            <label htmlFor="post-title" className="font-medium">Title</label>
             <input
               type="text"
               id="post-title"
+              defaultValue={post?.title ?? ""}
               className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter post title"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="font-medium">Upload Photos (Max 5)</span>
+            <span className="font-medium">
+              {isEditing ? "Replace Photos (upload new to replace all)" : "Upload Photos (Max 5)"}
+            </span>
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="post-image"
-                className={`flex flex-col items-center justify-center w-full min-h-[7rem] border-2 border-gray-300 border-dashed rounded-lg p-3 ${
-                  imagePreviews.length >= 5 ? "cursor-not-allowed opacity-75" : "cursor-pointer hover:bg-gray-50 focus-within:ring-2 focus-within:ring-blue-500 focus-within:outline-none"
-                }`}
+                className="flex flex-col items-center justify-center w-full min-h-28 border-2 border-gray-300 border-dashed rounded-lg p-3 cursor-pointer hover:bg-gray-50 focus-within:ring-2 focus-within:ring-blue-500 focus-within:outline-none"
               >
                 <div className="flex flex-col items-center justify-center w-full h-full">
                   {imagePreviews.length > 0 && (
                     <div className="flex flex-wrap gap-3 justify-center mb-4">
                       {imagePreviews.map((src, idx) => (
-                        <img 
-                          key={idx} 
-                          src={src} 
-                          alt={`Preview ${idx + 1}`} 
-                          className="h-16 w-16 object-cover rounded shadow-sm" 
+                        <img
+                          key={idx}
+                          src={src}
+                          alt={`Preview ${idx + 1}`}
+                          className="h-16 w-16 object-cover rounded shadow-sm"
                         />
                       ))}
                     </div>
                   )}
-                  {imagePreviews.length < 5 && (
-                    <>
-                      <FiUpload className="w-8 h-8 mb-3 text-gray-500 shrink-0" />
-                      <p className="mb-2 text-sm text-gray-500 text-center">
-                        <span className="font-semibold">Click to upload</span> or drag and drop
-                      </p>
-                      <p className="text-xs text-gray-500 text-center">
-                        {5 - imagePreviews.length} remaining (SVG, PNG, JPG or GIF)
-                      </p>
-                    </>
-                  )}
+                  <FiUpload className="w-8 h-8 mb-3 text-gray-500 shrink-0" />
+                  <p className="mb-2 text-sm text-gray-500 text-center">
+                    <span className="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p className="text-xs text-gray-500 text-center">SVG, PNG, JPG or GIF (max 5)</p>
                 </div>
                 <input
                   type="file"
@@ -149,18 +151,16 @@ export default function NewPostModal({ onClose }) {
                   accept="image/*"
                   multiple
                   onChange={handleImageChange}
-                  disabled={imagePreviews.length >= 5}
                 />
               </label>
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="post-description" className="font-medium">
-              Description
-            </label>
+            <label htmlFor="post-description" className="font-medium">Description</label>
             <textarea
               id="post-description"
               rows={2}
+              defaultValue={post?.description ?? ""}
               className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter post description"
             />
@@ -168,23 +168,21 @@ export default function NewPostModal({ onClose }) {
 
           <div className="flex flex-col md:flex-row gap-3">
             <div className="flex flex-col gap-1 flex-1">
-              <label htmlFor="post-brand" className="font-medium">
-                Brand
-              </label>
+              <label htmlFor="post-brand" className="font-medium">Brand</label>
               <input
                 type="text"
                 id="post-brand"
+                defaultValue={post?.brand ?? ""}
                 className="border border-gray-300 rounded-md py-1.5 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g. Nike"
               />
             </div>
             <div className="flex flex-col gap-1 flex-1">
-              <label htmlFor="post-size" className="font-medium">
-                Size
-              </label>
+              <label htmlFor="post-size" className="font-medium">Size</label>
               <input
                 type="text"
                 id="post-size"
+                defaultValue={post?.size ?? ""}
                 className="border border-gray-300 rounded-md py-1.5 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g. Medium"
               />
@@ -193,11 +191,10 @@ export default function NewPostModal({ onClose }) {
 
           <div className="flex flex-col md:flex-row gap-3">
             <div className="flex flex-col gap-1 flex-1">
-              <label htmlFor="post-category" className="font-medium">
-                Category
-              </label>
+              <label htmlFor="post-category" className="font-medium">Category</label>
               <select
                 id="post-category"
+                defaultValue={post?.category ?? ""}
                 className="border border-gray-300 rounded-md py-1.5 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="">Select...</option>
@@ -207,15 +204,14 @@ export default function NewPostModal({ onClose }) {
                 <option value="shoes">Shoes</option>
                 <option value="sweaters">Sweaters</option>
                 <option value="accessories">Accessories</option>
-                <option value="accessories">Other</option>
+                <option value="other">Other</option>
               </select>
             </div>
             <div className="flex flex-col gap-1 flex-1">
-              <label htmlFor="post-condition" className="font-medium">
-                Condition
-              </label>
+              <label htmlFor="post-condition" className="font-medium">Condition</label>
               <select
                 id="post-condition"
+                defaultValue={post?.condition ?? ""}
                 className="border border-gray-300 rounded-md py-1.5 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="">Select...</option>
@@ -266,9 +262,7 @@ export default function NewPostModal({ onClose }) {
             </div>
           </div>
 
-          {error && (
-            <p className="text-red-500 text-sm">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <div className="mt-2 flex justify-end gap-3 border-t border-gray-100 pt-4">
             <button
               type="button"
@@ -281,7 +275,7 @@ export default function NewPostModal({ onClose }) {
               type="submit"
               className="px-4 py-2 bg-accent text-white rounded-md hover:bg-accent-dark transition-colors font-medium"
             >
-              Submit Post
+              {isEditing ? "Save Changes" : "Submit Post"}
             </button>
           </div>
         </form>
