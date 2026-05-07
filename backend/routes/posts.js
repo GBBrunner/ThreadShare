@@ -94,15 +94,30 @@ router.patch('/posts/:id', authenticateToken, upload.array('images', 5), async (
         const { title, description, brand, size, category, condition, color } = req.body;
 
         // Ensure occasions is always an array
-        let occasions = post.occasions;
-        if (typeof occasions === 'string') {
-            occasions = occasions ? JSON.parse(occasions) : [];
-        } else if (!Array.isArray(occasions)) {
-            occasions = [];
+        let occasions = [];
+        
+        // Try to parse post.occasions if it exists
+        if (post.occasions) {
+            try {
+                if (typeof post.occasions === 'string') {
+                    occasions = JSON.parse(post.occasions);
+                } else if (Array.isArray(post.occasions)) {
+                    occasions = post.occasions;
+                }
+            } catch (parseErr) {
+                console.warn('Failed to parse post.occasions:', post.occasions, parseErr);
+                occasions = [];
+            }
         }
 
+        // Override with new occasions if provided
         if (req.body.occasions) {
-            occasions = Array.isArray(req.body.occasions) ? req.body.occasions : JSON.parse(req.body.occasions);
+            try {
+                occasions = Array.isArray(req.body.occasions) ? req.body.occasions : JSON.parse(req.body.occasions);
+            } catch (parseErr) {
+                console.warn('Failed to parse req.body.occasions:', req.body.occasions, parseErr);
+                occasions = [];
+            }
         }
 
         if (category && !VALID_CATEGORIES.includes(category)) return res.status(400).json({ message: 'Invalid category.' });
