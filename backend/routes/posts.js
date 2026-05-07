@@ -1,4 +1,4 @@
-const express = require('express');
+4const express = require('express');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const { cloudinary, getPublicId } = require('../config/cloudinary_config');
@@ -9,7 +9,7 @@ const router = express.Router();
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    params: { folder: 'threadshare', allowed_formats: ['jpwg', 'jpeg', 'png', 'gif', 'webp'] },
+    params: { folder: 'threadshare', allowed_formats: ['jpwg', 'jpg', 'jpeg', 'png', 'gif', 'webp'] },
 });
 
 const upload = multer({
@@ -19,7 +19,7 @@ const upload = multer({
         if (!file.mimetype.startsWith('image/')) return cb(new Error('Only image files are allowed.'));
         cb(null, true);
     },
-});
+});s
 
 const VALID_CATEGORIES = ['tops', 'bottoms', 'dresses', 'shoes', 'sweaters', 'accessories', 'other'];
 const VALID_CONDITIONS  = ['newWithTags', 'likeNew', 'good', 'worn'];

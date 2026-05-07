@@ -2,12 +2,14 @@
 
 // Prefer NEXT_PUBLIC_ for client-side env exposure; fall back if needed.
 // Keep the default pointed at the local server for dev.
-export const SERVER_URL =
+const rawServerUrl =
   process.env.NEXT_PUBLIC_SERVER_URL ||
   process.env.NEXT_PUBLIC_RENDER_SERVER_URL ||
   process.env.NEXT_PUBLIC_GARRETTS_RENDER_SERVER_URL ||
   process.env.RENDER_SERVER_URL ||
   'http://localhost:3005';
+
+export const SERVER_URL = rawServerUrl.replace(/\/$/, '');
 
 /**
  * Returns common fetch headers including the stored JWT for authentication.

@@ -33,7 +33,9 @@ export default function LoginPage() {
             const body = Object.fromEntries(formData.entries());
         try {
             setIsLoading(true);
-            const res = await fetch(`${SERVER_URL}/api/login/${type}`, {
+            const baseUrl = SERVER_URL.replace(/\/$/, '');
+            const endpoint = type ? `/api/login/${type}` : '/api/login';
+            const res = await fetch(`${baseUrl}${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
