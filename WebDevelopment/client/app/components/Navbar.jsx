@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/app/auth/useAuth";
 import { motion, useScroll } from "motion/react";
@@ -9,7 +8,6 @@ import ToggleTheme from "@/app/components/ToggleTheme";
 import LogOut from "@/app/components/LogOut";
 import NavLink from "@/app/components/NavLink";
 // React Icons
-import { FaRegUserCircle } from "react-icons/fa";
 import { MdMenuOpen } from "react-icons/md";
 import NewPostButton from "@/app/components/NewPostButton";
 
@@ -65,13 +63,13 @@ export default function Navbar({
             <ul className="flex flex-col h-full space-y-4 justify-between pt-14">
               {signed_in_user ? (
                 <div className="flex flex-col items-start gap-2">
-                  <NavLink href="/dashboard" icon={<FaRegUserCircle />}>
+                  <NavLink href="/dashboard" icon={<img src="/profile-outline.svg" alt="" width={30} height={30} />}>
                     {signed_in_user.username}'s Dashboard
                   </NavLink>
                   <NavLink href="/my-closet" icon={<img src="/tops-outline.svg" alt="" width={30} height={30} />}>
                     My Closet
                   </NavLink>
-                  <NavLink href="/favorites" icon={<img src="/heart-circle-outline.svg" alt="" width={30} height={30} />}>
+                  <NavLink href="/favorites" icon={<img src="/heart-outline.svg" alt="" width={30} height={30} />}>
                     Favorites
                   </NavLink>
                   <NavLink href="/my-comments" icon={<img src="/chat-outline.svg" alt="" width={30} height={30} />}>
@@ -88,7 +86,7 @@ export default function Navbar({
                 </NavLink>
 
                 {!signed_in_user && (
-                  <NavLink href="/login" icon={<FaRegUserCircle />}>
+                  <NavLink href="/login" icon={<img src="/profile-outline.svg" alt="" width={30} height={30} />}>
                     Login
                   </NavLink>
                 )}

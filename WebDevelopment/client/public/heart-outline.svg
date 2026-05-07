@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .f {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 0.91px;
+      }
+    </style>
+  </defs>
+  <g id="c" data-name="Layer 2">
+    <g id="d" data-name="Heart-outline-nav">
+      <path class="f" transform="translate(10,10) scale(1.7) translate(-10,-10)" d="M12.21,7.31c-.87,0-1.54.96-1.92,1.54s-.38.19-.58,0c-.38-.58-1.15-1.54-1.92-1.54-1.15,0-2.12.87-2.12,1.92s.19.87.48,1.25l3.65,4.13c.1.1.38.1.48,0l3.65-4.23c.29-.29.48-.77.48-1.25,0-1.06-.96-1.92-2.12-1.92l-.1.1Z"/>
+    </g>
+  </g>
+</svg>

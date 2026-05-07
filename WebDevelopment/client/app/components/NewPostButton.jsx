@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { RiAddBoxFill } from "react-icons/ri";
 import NewPostModal from "@/app/components/NewPostModal";
 
 export default function NewPostButton({ className }) {
@@ -15,7 +14,7 @@ export default function NewPostButton({ className }) {
         }
         onClick={() => setOpen(true)}
       >
-        <RiAddBoxFill /> New Post
+        <img src="/add-follow-circle.svg" alt="" width={22} height={22} /> New Post
       </button>
       {open && <NewPostModal onClose={() => setOpen(false)} />}
     </>
