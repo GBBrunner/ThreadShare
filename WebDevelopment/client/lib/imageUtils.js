@@ -9,13 +9,18 @@
  * - h_auto: Maintain aspect ratio
  * - c_limit: Don't upscale small images
  * - q_auto: Auto quality optimization
- * - f_auto: Auto format selection (webp for modern browsers)
  */
 export const getResponsiveImageUrl = (cloudinaryUrl, width = 800) => {
   if (!cloudinaryUrl) return cloudinaryUrl;
+  
+  // Check if transformations already exist to avoid duplication
+  if (cloudinaryUrl.includes('w_')) {
+    return cloudinaryUrl;
+  }
+  
   return cloudinaryUrl.replace(
     /\/upload\//,
-    `/upload/w_${width},h_auto,c_limit,q_auto,f_auto/`
+    `/upload/w_${width},h_auto,c_limit,q_auto/`
   );
 };
 

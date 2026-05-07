@@ -116,65 +116,67 @@ export default function MyPhotosPage() {
         ) : posts.length === 0 ? (
           <p className="text-gray-500">No posts yet. Create one with the New Post button!</p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-max">
-            {posts.map((post) => {
-              const imageUrl = post.images?.[0];
-              const aspectRatio = imageUrl ? aspectRatios[imageUrl] : null;
-              return (
-              <div
-                key={post.id}
-                className="relative group rounded-lg overflow-hidden shadow border bg-white"
-                style={
-                  aspectRatio
-                    ? { aspectRatio: aspectRatio.toString() }
-                    : { minHeight: "12rem" }
-                }
-              >
-                {post.images?.[0] ? (
-                  <img
-                    src={getResponsiveImageUrl(post.images[0])}
-                    alt={post.title}
-                    onLoad={(e) => handleImageLoad(e, imageUrl)}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-                    No image
-                  </div>
-                )}
-                <div className="absolute bottom-0 left-0 right-0 p-2 bg-white">
-                  <p className="font-medium text-sm truncate text-gray-800">{post.title}</p>
-                  {post.brand && (
-                    <p className="text-xs text-gray-400 truncate">{post.brand}</p>
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-max">
+              {posts.map((post) => {
+                const imageUrl = post.images?.[0];
+                const aspectRatio = imageUrl ? aspectRatios[imageUrl] : null;
+                return (
+                <div
+                  key={post.id}
+                  className="relative group rounded-lg overflow-hidden shadow border bg-white"
+                  style={
+                    aspectRatio
+                      ? { aspectRatio: aspectRatio.toString() }
+                      : { minHeight: "12rem" }
+                  }
+                >
+                  {post.images?.[0] ? (
+                    <img
+                      src={getResponsiveImageUrl(post.images[0])}
+                      alt={post.title}
+                      onLoad={(e) => handleImageLoad(e, imageUrl)}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                      No image
+                    </div>
                   )}
+                  <div className="absolute bottom-0 left-0 right-0 p-2 bg-white">
+                    <p className="font-medium text-sm truncate text-gray-800">{post.title}</p>
+                    {post.brand && (
+                      <p className="text-xs text-gray-400 truncate">{post.brand}</p>
+                    )}
+                  </div>
+                  <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => setEditPost(post)}
+                      className="bg-white rounded-full p-1.5 shadow hover:bg-gray-100"
+                      title="Edit post"
+                    >
+                      <FaPencilAlt size={13} className="text-gray-700" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(post.id)}
+                      className="bg-white rounded-full p-1.5 shadow hover:bg-red-50"
+                      title="Delete post"
+                    >
+                      <FaTrash size={13} className="text-red-500" />
+                    </button>
+                  </div>
                 </div>
-                <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button
-                    onClick={() => setEditPost(post)}
-                    className="bg-white rounded-full p-1.5 shadow hover:bg-gray-100"
-                    title="Edit post"
-                  >
-                    <FaPencilAlt size={13} className="text-gray-700" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(post.id)}
-                    className="bg-white rounded-full p-1.5 shadow hover:bg-red-50"
-                    title="Delete post"
-                  >
-                    <FaTrash size={13} className="text-red-500" />
-                  </button>
-                </div>
-              </div>
-              );
-            })}
-            {/* Intersection observer trigger for eager loading */}
-            <div ref={endOfListRef} className="col-span-full" />
-          </div>
-          {isLoadingMore && (
-            <div className="flex justify-center mt-6">
-              <p className="text-gray-400">Loading more posts...</p>
+                );
+              })}
+              {/* Intersection observer trigger for eager loading */}
+              <div ref={endOfListRef} className="col-span-full" />
             </div>
-          )}
+            {isLoadingMore && (
+              <div className="flex justify-center mt-6">
+                <p className="text-gray-400">Loading more posts...</p>
+              </div>
+            )}
+          </>
         )}
       </div>
 
