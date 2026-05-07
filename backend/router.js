@@ -8,6 +8,7 @@ const updateUserInfoRouter = require('./routes/update_user_info');
 const newPostRouter = require('./routes/new_post');
 const postsRouter = require('./routes/posts');
 const favoriteItemRouter = require('./routes/favorite_item');
+const commentRouter = require('./routes/comment');
 // const deleteAccountRouter = require('./routes/delete_account');
 
 router.use('/api', loginRouter);
@@ -16,6 +17,7 @@ router.use('/api', updateUserInfoRouter);
 router.use('/api', newPostRouter);
 router.use('/api', postsRouter);
 router.use('/api', favoriteItemRouter);
+router.use('/api', commentRouter);
 // router.use('/api', deleteAccountRouter);
 
 module.exports = router;

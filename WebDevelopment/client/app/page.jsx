@@ -9,6 +9,7 @@ import { SERVER_URL } from "@/lib/config";
 import { constrainAspectRatio } from "@/lib/imageUtils";
 import Image from "next/image";
 import { FaComment } from "react-icons/fa";
+import CommentModal from "@/app/components/CommentModal";
 
 export default function HomePage() {
   const { signed_in_user } = useAuth();
@@ -20,6 +21,7 @@ export default function HomePage() {
   const [hasMore, setHasMore] = useState(true);
   const [eagerLoadTriggered, setEagerLoadTriggered] = useState(false);
   const [likedPostIds, setLikedPostIds] = useState(new Set());
+  const [activeCommentPost, setActiveCommentPost] = useState(null);
   const [filters, setFilters] = useState({
     category: null,
     condition: null,
@@ -172,6 +174,21 @@ export default function HomePage() {
     }
   };
 
+  const handleCommentClick = (e, post) => {
+    e.stopPropagation();
+    if (!signed_in_user) {
+      toast.info("Please sign in to comment");
+      return;
+    }
+    setActiveCommentPost(post);
+  };
+
+  const handleCommentsCountChange = (postId, commentsCount) => {
+    setPosts((prev) =>
+      prev.map((p) => (p.id === postId ? { ...p, commentsCount } : p))
+    );
+  };
+
   const handleImageLoad = (e, imageUrl) => {
     const img = e.target;
     const naturalRatio = img.naturalWidth / img.naturalHeight;
@@ -245,7 +262,7 @@ export default function HomePage() {
                     {/* Heart button — always visible */}
                     <button
                       onClick={(e) => handleFavorite(e, post.id)}
-                      className="absolute top-2 right-2 flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs shadow hover:scale-110 transition-transform"
+                      className="absolute top-2 right-2 flex items-center gap-1 bg-primary rounded-full px-2 py-1 text-xs shadow hover:scale-110 transition-transform"
                     >
                       <Image
                         src={isLiked ? "/heart-circle-filled.svg" : "/heart-circle-outline.svg"}
@@ -256,12 +273,14 @@ export default function HomePage() {
                       {post.likesCount > 0 && <span>{post.likesCount}</span>}
                     </button>
 
-                    {/* Comment badge — visible on hover */}
-                    <div className="absolute top-2 left-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs shadow">
-                        <FaComment size={12} className="text-blue-500" /> 0
-                      </div>
-                    </div>
+                    {/* Comment button — always visible */}
+                    <button
+                      onClick={(e) => handleCommentClick(e, post)}
+                      className="absolute top-2 left-2 flex items-center gap-1 bg-accent-dark rounded-full px-2 py-1 text-xs shadow hover:scale-110 transition-transform"
+                    >
+                      <FaComment size={12} className="text-white" />
+                      {post.commentsCount > 0 && <span className="text-white">{post.commentsCount}</span>}
+                    </button>
                   </div>
                 );
               })}
@@ -277,6 +296,14 @@ export default function HomePage() {
           </>
         )}
       </div>
+
+      {activeCommentPost && (
+        <CommentModal
+          post={activeCommentPost}
+          onClose={() => setActiveCommentPost(null)}
+          onCommentsCountChange={handleCommentsCountChange}
+        />
+      )}
     </main>
   );
 }
