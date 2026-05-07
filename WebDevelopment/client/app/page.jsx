@@ -122,14 +122,9 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-white">
-      <div className="p-6 max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Discover</h1>
-
-        {/* Filters Section - Ready for future implementation */}
-        <div className="mb-8 p-4 bg-gray-50 rounded-lg">
-          <p className="text-sm text-gray-600">
-            Filters coming soon - category, condition, occasions
-          </p>
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">Discover</h1>
         </div>
 
         {loading ? (
@@ -145,7 +140,7 @@ export default function HomePage() {
                 return (
                   <div
                     key={post.id}
-                    className="relative group rounded-lg overflow-hidden shadow border-2 border-gray-200 bg-white mb-6 break-inside-avoid pb-4 cursor-pointer hover:shadow-lg transition-shadow"
+                    className="relative group rounded-lg overflow-hidden shadow border-2 border-secondary bg-white mb-6 break-inside-avoid pb-4 cursor-pointer hover:shadow-lg transition-shadow"
                     style={
                       aspectRatio
                         ? { aspectRatio: aspectRatio.toString() }
@@ -168,22 +163,20 @@ export default function HomePage() {
                       </div>
                     )}
 
-                    {/* Hover overlay with details */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors opacity-0 group-hover:opacity-100 flex flex-col justify-between p-4">
-                      <div></div>
-                      <div className="text-white">
-                        <p className="font-bold text-lg">{post.title}</p>
-                        {post.brand && <p className="text-sm text-gray-200">{post.brand}</p>}
-                      </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-secondary-light">
+                      <p className="font-medium text-sm truncate text-gray-800">{post.title}</p>
+                      {post.brand && (
+                        <p className="text-xs text-gray-600 truncate">{post.brand}</p>
+                      )}
                     </div>
 
-                    {/* Engagement badges */}
-                    <div className="absolute bottom-0 right-0 p-2 flex gap-2 text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="flex items-center gap-1 bg-black/50 rounded-full px-2 py-1 text-xs">
-                        <FaHeart size={12} /> 0
+                    {/* Engagement badges on hover */}
+                    <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs shadow">
+                        <FaHeart size={12} className="text-red-500" /> 0
                       </div>
-                      <div className="flex items-center gap-1 bg-black/50 rounded-full px-2 py-1 text-xs">
-                        <FaComment size={12} /> 0
+                      <div className="flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs shadow">
+                        <FaComment size={12} className="text-blue-500" /> 0
                       </div>
                     </div>
                   </div>

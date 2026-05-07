@@ -34,6 +34,7 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
   const [selectedColor, setSelectedColor] = useState(post?.color ?? "");
   const [selectedOccasions, setSelectedOccasions] = useState(post?.occasions ?? []);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
@@ -54,10 +55,14 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return; // Prevent duplicate submissions
+    
     setError("");
+    setIsSubmitting(true);
 
     if (imagePreviews.length === 0) {
       setError("Please upload at least one photo.");
+      setIsSubmitting(false);
       return;
     }
 
@@ -105,6 +110,8 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
     } catch (err) {
       console.error("Error submitting post:", err);
       setError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -289,9 +296,10 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-accent text-white rounded-md hover:bg-accent-dark transition-colors font-medium"
+              disabled={isSubmitting}
+              className="px-4 py-2 bg-accent text-white rounded-md hover:bg-accent-dark transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isEditing ? "Save Changes" : "Submit Post"}
+              {isSubmitting ? (isEditing ? "Saving..." : "Submitting...") : (isEditing ? "Save Changes" : "Submit Post")}
             </button>
           </div>
         </form>
