@@ -9,7 +9,7 @@ import ToggleTheme from "@/app/components/ToggleTheme";
 import LogOut from "@/app/components/LogOut";
 import NavLink from "@/app/components/NavLink";
 // React Icons
-import { FaHome, FaRegUserCircle, FaImages, FaComment } from "react-icons/fa";
+import { FaRegUserCircle } from "react-icons/fa";
 import { MdMenuOpen } from "react-icons/md";
 import NewPostButton from "@/app/components/NewPostButton";
 
@@ -68,13 +68,13 @@ export default function Navbar({
                   <NavLink href="/dashboard" icon={<FaRegUserCircle />}>
                     {signed_in_user.username}'s Dashboard
                   </NavLink>
-                  <NavLink href="/my-closet" icon={<FaImages />}>
+                  <NavLink href="/my-closet" icon={<img src="/tops-outline.svg" alt="" width={30} height={30} />}>
                     My Closet
                   </NavLink>
                   <NavLink href="/favorites" icon={<img src="/heart-circle-outline.svg" alt="" width={30} height={30} />}>
                     Favorites
                   </NavLink>
-                  <NavLink href="/my-comments" icon={<FaComment />}>
+                  <NavLink href="/my-comments" icon={<img src="/chat-outline.svg" alt="" width={30} height={30} />}>
                     My Comments
                   </NavLink>
                   <NewPostButton />
@@ -83,7 +83,7 @@ export default function Navbar({
                 <div />
               )}
               <div className="flex flex-col gap-6">
-                <NavLink href="/" icon={<FaHome />}>
+                <NavLink href="/" icon={<img src="/home-outline.svg" alt="" width={30} height={30} />}>
                   Home
                 </NavLink>
 

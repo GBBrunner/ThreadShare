@@ -8,7 +8,6 @@ import { useAuth } from "@/app/auth/useAuth";
 import { SERVER_URL } from "@/lib/config";
 import { constrainAspectRatio } from "@/lib/imageUtils";
 import Image from "next/image";
-import { FaComment } from "react-icons/fa";
 import CommentModal from "@/app/components/CommentModal";
 
 export default function HomePage() {
@@ -278,7 +277,7 @@ export default function HomePage() {
                       onClick={(e) => handleCommentClick(e, post)}
                       className="absolute top-2 left-2 flex items-center gap-1 bg-accent-dark rounded-full px-2 py-1 text-xs shadow hover:scale-110 transition-transform"
                     >
-                      <FaComment size={12} className="text-white" />
+                      <img src="/chat-outline.svg" alt="" width={16} height={16} />
                       {post.commentsCount > 0 && <span className="text-white">{post.commentsCount}</span>}
                     </button>
                   </div>
