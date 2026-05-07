@@ -207,7 +207,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-primary dark:bg-primary-dark text-foreground">
       <ToastContainer position="bottom-center" autoClose={3000} />
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
@@ -217,7 +217,7 @@ export default function HomePage() {
         {loading ? (
           <LoadingScreen />
         ) : posts.length === 0 ? (
-          <p className="text-gray-500 text-center py-12">No posts available.</p>
+          <p className="text-gray-500 dark:text-gray-400 text-center py-12">No posts available.</p>
         ) : (
           <>
             <div className="columns-2 md:columns-3 gap-4">
@@ -228,7 +228,7 @@ export default function HomePage() {
                 return (
                   <div
                     key={post.id}
-                    className="relative group rounded-lg overflow-hidden shadow border-2 border-secondary bg-white mb-6 break-inside-avoid pb-4 cursor-pointer hover:shadow-lg transition-shadow"
+                    className="relative group rounded-lg overflow-hidden shadow border-2 border-secondary bg-white dark:bg-secondary-dark mb-6 break-inside-avoid pb-4 cursor-pointer hover:shadow-lg transition-shadow"
                     style={
                       aspectRatio
                         ? { aspectRatio: aspectRatio.toString() }
@@ -246,15 +246,15 @@ export default function HomePage() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                      <div className="w-full h-48 bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 text-sm">
                         No image
                       </div>
                     )}
 
-                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-secondary-light">
-                      <p className="font-medium text-sm truncate text-gray-800">{post.title}</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-secondary/80 dark:bg-secondary-dark/80 backdrop-blur-sm">
+                      <p className="font-medium text-sm truncate text-gray-800 dark:text-gray-100">{post.title}</p>
                       {post.brand && (
-                        <p className="text-xs text-gray-600 truncate">{post.brand}</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-300 truncate">{post.brand}</p>
                       )}
                     </div>
 

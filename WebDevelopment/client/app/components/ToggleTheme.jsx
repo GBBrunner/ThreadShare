@@ -22,10 +22,15 @@ export default function ToggleTheme() {
         
         <button
             type="button"
-            className="px-6 py-3 w-full text-lg rounded-xl font-bold bg-accent-dark text-white hover:bg-secondary transition-colors"
+            className="flex items-center justify-center p-2 rounded-xl bg-accent-dark text-white hover:bg-secondary transition-colors"
             onClick={toggleTheme}
+            aria-label="Toggle Theme"
             >
-            Theme: {theme}
+            <img 
+                src={theme === 'dark' ? '/dark-mode-outline.svg' : '/light-mode-outline.svg'} 
+                alt={`${theme} mode`}
+                className="w-6 h-6"
+            />
         </button>
     );
 
