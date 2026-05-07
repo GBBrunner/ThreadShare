@@ -25,14 +25,34 @@ const VALID_CATEGORIES = ['tops', 'bottoms', 'dresses', 'shoes', 'sweaters', 'ac
 const VALID_CONDITIONS  = ['newWithTags', 'likeNew', 'good', 'worn'];
 const VALID_OCCASIONS   = ['formal', 'business', 'casual', 'everyday', 'vacation', 'work', 'gym', 'sports', 'party', 'swimwear', 'outerwear', 'other'];
 
-// GET /api/my_posts — all posts belonging to the authenticated user
+// GET /api/my_posts — paginated posts belonging to the authenticated user
+// Query params: limit (default 10), offset (default 0)
 router.get('/my_posts', authenticateToken, async (req, res) => {
     try {
+        const limit = Math.min(parseInt(req.query.limit) || 10, 100); // Max 100 per request
+        const offset = Math.max(parseInt(req.query.offset) || 0, 0);
+
         const result = await pool.query(
-            'SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC',
+            'SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3',
+            [req.user.id, limit, offset]
+        );
+
+        // Get total count for pagination info
+        const countResult = await pool.query(
+            'SELECT COUNT(*) FROM posts WHERE user_id = $1',
             [req.user.id]
         );
-        return res.status(200).json({ posts: result.rows });
+        const total = parseInt(countResult.rows[0].count);
+
+        return res.status(200).json({
+            posts: result.rows,
+            pagination: {
+                total,
+                limit,
+                offset,
+                hasMore: offset + limit < total,
+            },
+        });
     } catch (err) {
         console.error('Error fetching posts:', err);
         return res.status(500).json({ message: 'Internal server error.' });
