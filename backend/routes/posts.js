@@ -9,7 +9,7 @@ const router = express.Router();
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    params: { folder: 'threadshare', allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'] },
+    params: { folder: 'threadshare', allowed_formats: ['jpwg', 'jpeg', 'png', 'gif', 'webp'] },
 });
 
 const upload = multer({

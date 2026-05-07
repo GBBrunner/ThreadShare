@@ -17,9 +17,10 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, curl, Postman) and any matching origin
+      // Allow requests with no origin (mobile apps, curl, Postman), literal "null", and any matching origin
       if (
         !origin ||
+        origin === "null" ||
         allowedOrigins.includes(origin) ||
         origin.endsWith(".vercel.app")
       ) {
