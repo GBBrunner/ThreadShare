@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
+  <defs>
+    <style>
+      .d {
+        fill: none;
+        stroke: #000;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="c" data-name="Layer 2">
+    <g>
+      <g>
+        <line class="d" x1="7.97" y1=".5" x2="20.5" y2=".5"/>
+        <line class="d" x1="7.97" y1="7.17" x2="17.37" y2="7.17"/>
+        <line class="d" x1="7.97" y1="13.83" x2="15.02" y2="13.83"/>
+        <line class="d" x1="7.97" y1="20.5" x2="13.26" y2="20.5"/>
+      </g>
+      <g>
+        <line class="d" x1="3.95" y1=".79" x2="3.95" y2="20.21"/>
+        <path class="d" d="M.5,7.66L3.53,1.26c.25-.63.6-.63.85,0l3.03,6.4"/>
+      </g>
+    </g>
+  </g>
+</svg>
