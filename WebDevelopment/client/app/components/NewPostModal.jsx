@@ -96,7 +96,7 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
           onSaved(data.post);
         } else {
           toast.success("Post created successfully!");
-          if (pathname === "/my-photos") router.refresh();
+          if (pathname === "/my-closet") router.refresh();
           setTimeout(onClose, 1500);
         }
       } else {

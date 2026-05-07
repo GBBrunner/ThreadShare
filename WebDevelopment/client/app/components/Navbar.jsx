@@ -68,7 +68,7 @@ export default function Navbar({
                   <NavLink href="/dashboard" icon={<FaRegUserCircle />}>
                     {signed_in_user.username}'s Dashboard
                   </NavLink>
-                  <NavLink href="/my-photos" icon={<FaImages />}>
+                  <NavLink href="/my-closet" icon={<FaImages />}>
                     My Closet
                   </NavLink>
                   <NewPostButton />
