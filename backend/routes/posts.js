@@ -25,6 +25,74 @@ const VALID_CATEGORIES = ['tops', 'bottoms', 'dresses', 'shoes', 'sweaters', 'ac
 const VALID_CONDITIONS  = ['newWithTags', 'likeNew', 'good', 'worn'];
 const VALID_OCCASIONS   = ['formal', 'business', 'casual', 'everyday', 'vacation', 'work', 'gym', 'sports', 'party', 'swimwear', 'outerwear', 'other'];
 
+// GET /api/posts — paginated posts from all users (public feed)
+// Query params: limit (default 10), offset (default 0), category, condition, occasions
+router.get('/posts', async (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit) || 10, 100);
+        const offset = Math.max(parseInt(req.query.offset) || 0, 0);
+        
+        // Build WHERE clause for filters (ready for future filtering)
+        let whereConditions = [];
+        let params = [];
+        
+        if (req.query.category) {
+            whereConditions.push(`category = $${params.length + 1}`);
+            params.push(req.query.category);
+        }
+        
+        if (req.query.condition) {
+            whereConditions.push(`condition = $${params.length + 1}`);
+            params.push(req.query.condition);
+        }
+        
+        // Build occasions filter if provided
+        if (req.query.occasions) {
+            try {
+                const occasions = Array.isArray(req.query.occasions) 
+                    ? req.query.occasions 
+                    : JSON.parse(req.query.occasions);
+                if (occasions.length > 0) {
+                    // Note: This is a simplified check; in production you'd want proper array containment
+                    whereConditions.push(`occasions @> $${params.length + 1}::text[]`);
+                    params.push(JSON.stringify(occasions));
+                }
+            } catch (e) {
+                console.warn('Invalid occasions filter:', e);
+            }
+        }
+        
+        const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : '';
+        const limitParam = params.length + 1;
+        const offsetParam = params.length + 2;
+        
+        const result = await pool.query(
+            `SELECT * FROM posts ${whereClause} ORDER BY created_at DESC LIMIT $${limitParam} OFFSET $${offsetParam}`,
+            [...params, limit, offset]
+        );
+        
+        // Get total count with filters applied
+        const countResult = await pool.query(
+            `SELECT COUNT(*) FROM posts ${whereClause}`,
+            params
+        );
+        const total = parseInt(countResult.rows[0].count);
+        
+        return res.status(200).json({
+            posts: result.rows,
+            pagination: {
+                total,
+                limit,
+                offset,
+                hasMore: offset + limit < total,
+            },
+        });
+    } catch (err) {
+        console.error('Error fetching posts:', err);
+        return res.status(500).json({ message: 'Internal server error.' });
+    }
+});
+
 // GET /api/my_posts — paginated posts belonging to the authenticated user
 // Query params: limit (default 10), offset (default 0)
 router.get('/my_posts', authenticateToken, async (req, res) => {

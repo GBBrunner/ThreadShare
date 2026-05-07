@@ -4,9 +4,11 @@ import { useEffect, useState, useRef } from "react";
 import { useAuth } from "@/app/auth/useAuth";
 import ProtectedRoute from "@/app/components/ProtectedRoute";
 import NewPostModal from "@/app/components/NewPostModal";
+import NewPostButton from "@/app/components/NewPostButton";
+import LoadingScreen from "@/app/components/LoadingScreen";
 import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import { SERVER_URL } from "@/lib/config";
-import { getResponsiveImageUrl, constrainAspectRatio } from "@/lib/imageUtils";
+import { constrainAspectRatio } from "@/lib/imageUtils";
 
 export default function MyPhotosPage() {
   const { signed_in_user } = useAuth();
@@ -118,22 +120,25 @@ export default function MyPhotosPage() {
   return (
     <ProtectedRoute isLoggedIn={!!signed_in_user}>
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">My Photos</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">My Closet</h1>
+          <NewPostButton className="px-4 py-2 text-sm rounded-lg font-bold bg-accent text-white hover:bg-accent-dark transition-colors flex items-center gap-2" />
+        </div>
 
         {loading ? (
-          <p className="text-gray-500">Loading...</p>
+          <LoadingScreen />
         ) : posts.length === 0 ? (
           <p className="text-gray-500">No posts yet. Create one with the New Post button!</p>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-max">
+            <div className="columns-2 md:columns-3 gap-4">
               {posts.map((post) => {
                 const imageUrl = post.images?.[0];
                 const aspectRatio = imageUrl ? aspectRatios[imageUrl] : null;
                 return (
                 <div
                   key={post.id}
-                  className="relative group rounded-lg overflow-hidden shadow border bg-white"
+                  className="relative group rounded-lg overflow-hidden shadow border-2 border-secondary bg-white mb-6 break-inside-avoid pb-4"
                   style={
                     aspectRatio
                       ? { aspectRatio: aspectRatio.toString() }
@@ -155,10 +160,10 @@ export default function MyPhotosPage() {
                       No image
                     </div>
                   )}
-                  <div className="absolute bottom-0 left-0 right-0 p-2 bg-white">
+                  <div className="absolute bottom-0 left-0 right-0 p-2 bg-secondary-light">
                     <p className="font-medium text-sm truncate text-gray-800">{post.title}</p>
                     {post.brand && (
-                      <p className="text-xs text-gray-400 truncate">{post.brand}</p>
+                      <p className="text-xs text-gray-600 truncate">{post.brand}</p>
                     )}
                   </div>
                   <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -181,7 +186,7 @@ export default function MyPhotosPage() {
                 );
               })}
               {/* Intersection observer trigger for eager loading */}
-              <div ref={endOfListRef} className="col-span-full" />
+              <div ref={endOfListRef} className="w-full" />
             </div>
             {isLoadingMore && (
               <div className="flex justify-center mt-6">

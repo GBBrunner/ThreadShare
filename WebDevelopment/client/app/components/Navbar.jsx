@@ -11,8 +11,7 @@ import NavLink from "@/app/components/NavLink";
 // React Icons
 import { FaHome, FaRegUserCircle, FaImages } from "react-icons/fa";
 import { MdMenuOpen } from "react-icons/md";
-import NewPostModal from "@/app/components/NewPostModal";
-import { RiAddBoxFill } from "react-icons/ri";
+import NewPostButton from "@/app/components/NewPostButton";
 
 export default function Navbar({
   isOpen = true,
@@ -23,7 +22,6 @@ export default function Navbar({
   const { scrollY } = useScroll();
 
   const [direction, setDirection] = useState("up");
-  const [newPost, setNewPost] = useState(false);
 
   useEffect(() => {
     return scrollY.on("change", (latest) => {
@@ -73,12 +71,7 @@ export default function Navbar({
                   <NavLink href="/my-photos" icon={<FaImages />}>
                     My Closet
                   </NavLink>
-                  <button
-                    className="px-6 py-3 w-full text-lg rounded-xl font-bold border-b-accent-dark bg-accent-dark text-white hover:bg-secondary transition-colors flex items-center gap-2"
-                    onClick={() => setNewPost(true)}
-                  >
-                    <RiAddBoxFill /> New Post
-                  </button>
+                  <NewPostButton />
                 </div>
               ) : (
                 <div />
@@ -103,7 +96,6 @@ export default function Navbar({
         </div>
       </motion.aside>
 
-      {newPost && <NewPostModal onClose={() => setNewPost(false)} />}
     </>
   );
 }
