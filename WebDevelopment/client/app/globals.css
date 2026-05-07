@@ -83,7 +83,7 @@ button, a, input, select {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-family: var(--font-inter), 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -101,6 +101,7 @@ input, textarea {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair), Georgia, serif;
   font-weight: 600;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
