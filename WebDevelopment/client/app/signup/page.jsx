@@ -84,7 +84,7 @@ export default function SignupPage() {
       {isLoading && <LoadingScreen />}
       <ToastContainer />
       <form
-        className="bg-slate-100 w-64 rounded-t-xs rounded-b-lg p-4 border-b-4 text-black border-emerald-500"
+        className="bg-slate-100 w-64 rounded-t-xs rounded-b-lg p-4 border-b-4 text-black "
         onSubmit={handleSubmit}
       >
         <h1>Sign Up Page</h1>
@@ -94,7 +94,7 @@ export default function SignupPage() {
         <FormInput inputValue="email"         inputType="email"    inputName="Email" />
         <FormInput inputValue="user_password" inputType="password" inputName="Password" />
         <br />
-        <button className="bg-emerald-600 text-white border-b-4 border-emerald-900 px-4 py-2 rounded hover:bg-emerald-500 hover:border-bg-accent"
+        <button className="bg-accent text-white border-b-4 border-emerald-900 px-4 py-2 rounded hover:bg-emerald-500 hover:border-bg-accent"
           type="submit">Sign Up
         </button>
         {/* {error && <p className="text-red-600 mt-2">{error}</p>}
