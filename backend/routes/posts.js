@@ -1,4 +1,4 @@
-4const express = require('express');
+const express = require('express');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const { cloudinary, getPublicId } = require('../config/cloudinary_config');
@@ -19,7 +19,7 @@ const upload = multer({
         if (!file.mimetype.startsWith('image/')) return cb(new Error('Only image files are allowed.'));
         cb(null, true);
     },
-});s
+});
 
 const VALID_CATEGORIES = ['tops', 'bottoms', 'dresses', 'shoes', 'sweaters', 'accessories', 'other'];
 const VALID_CONDITIONS  = ['newWithTags', 'likeNew', 'good', 'worn'];
