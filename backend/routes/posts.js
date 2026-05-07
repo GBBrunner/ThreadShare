@@ -93,7 +93,14 @@ router.patch('/posts/:id', authenticateToken, upload.array('images', 5), async (
         const post = rows[0];
         const { title, description, brand, size, category, condition, color } = req.body;
 
+        // Ensure occasions is always an array
         let occasions = post.occasions;
+        if (typeof occasions === 'string') {
+            occasions = occasions ? JSON.parse(occasions) : [];
+        } else if (!Array.isArray(occasions)) {
+            occasions = [];
+        }
+
         if (req.body.occasions) {
             occasions = Array.isArray(req.body.occasions) ? req.body.occasions : JSON.parse(req.body.occasions);
         }
