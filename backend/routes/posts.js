@@ -122,6 +122,11 @@ router.patch('/posts/:id', authenticateToken, upload.array('images', 5), async (
 
         if (category && !VALID_CATEGORIES.includes(category)) return res.status(400).json({ message: 'Invalid category.' });
         if (condition && !VALID_CONDITIONS.includes(condition)) return res.status(400).json({ message: 'Invalid condition.' });
+        
+        // Ensure occasions is an array before validation
+        if (!Array.isArray(occasions)) {
+            occasions = [];
+        }
         const invalidOccasion = occasions.find(o => !VALID_OCCASIONS.includes(o));
         if (invalidOccasion) return res.status(400).json({ message: `Invalid occasion: ${invalidOccasion}` });
 
