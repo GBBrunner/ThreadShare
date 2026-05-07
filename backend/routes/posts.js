@@ -134,8 +134,8 @@ router.patch('/posts/:id', authenticateToken, upload.array('images', 5), async (
 
         return res.status(200).json({ message: 'Post updated.', post: result.rows[0] });
     } catch (err) {
-        console.error('Error updating post:', err);
-        return res.status(500).json({ message: 'Internal server error.' });
+        console.error('Error updating post:', err.message, err);
+        return res.status(500).json({ message: 'Internal server error.', error: err.message });
     }
 });
 
