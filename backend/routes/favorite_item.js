@@ -18,6 +18,35 @@ router.get('/favorite-items', authenticateToken, async (req, res) => {
     }
 });
 
+// GET /api/favorite-posts — paginated posts the authenticated user has liked
+router.get('/favorite-posts', authenticateToken, async (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit) || 10, 100);
+        const offset = Math.max(parseInt(req.query.offset) || 0, 0);
+
+        const result = await pool.query(
+            `SELECT p.* FROM posts p
+             JOIN post_likes pl ON pl.post_id = p.id
+             WHERE pl.user_id = $1
+             ORDER BY pl.created_at DESC
+             LIMIT $2 OFFSET $3`,
+            [req.user.id, limit, offset]
+        );
+        const countResult = await pool.query(
+            'SELECT COUNT(*) FROM post_likes WHERE user_id = $1',
+            [req.user.id]
+        );
+        const total = parseInt(countResult.rows[0].count);
+        return res.status(200).json({
+            posts: result.rows,
+            pagination: { total, limit, offset, hasMore: offset + limit < total },
+        });
+    } catch (err) {
+        console.error('Error fetching favorite posts:', err);
+        return res.status(500).json({ message: 'Internal server error.' });
+    }
+});
+
 // POST /api/favorite-item — like a post
 // Body: { post_id }
 router.post('/favorite-item', authenticateToken, async (req, res) => {

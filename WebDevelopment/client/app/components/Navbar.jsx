@@ -9,7 +9,7 @@ import ToggleTheme from "@/app/components/ToggleTheme";
 import LogOut from "@/app/components/LogOut";
 import NavLink from "@/app/components/NavLink";
 // React Icons
-import { FaHome, FaRegUserCircle, FaImages } from "react-icons/fa";
+import { FaHome, FaRegUserCircle, FaImages, FaComment } from "react-icons/fa";
 import { MdMenuOpen } from "react-icons/md";
 import NewPostButton from "@/app/components/NewPostButton";
 
@@ -70,6 +70,12 @@ export default function Navbar({
                   </NavLink>
                   <NavLink href="/my-closet" icon={<FaImages />}>
                     My Closet
+                  </NavLink>
+                  <NavLink href="/favorites" icon={<img src="/heart-circle-outline.svg" alt="" width={30} height={30} />}>
+                    Favorites
+                  </NavLink>
+                  <NavLink href="/my-comments" icon={<FaComment />}>
+                    My Comments
                   </NavLink>
                   <NewPostButton />
                 </div>

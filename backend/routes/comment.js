@@ -23,6 +23,35 @@ router.get('/comments/:postId', async (req, res) => {
     }
 });
 
+// GET /api/commented-posts — paginated posts the authenticated user has commented on
+router.get('/commented-posts', authenticateToken, async (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit) || 10, 100);
+        const offset = Math.max(parseInt(req.query.offset) || 0, 0);
+
+        const result = await pool.query(
+            `SELECT p.* FROM posts p
+             JOIN post_comments pc ON pc.post_id = p.id
+             WHERE pc.user_id = $1
+             ORDER BY pc.created_at DESC
+             LIMIT $2 OFFSET $3`,
+            [req.user.id, limit, offset]
+        );
+        const countResult = await pool.query(
+            'SELECT COUNT(*) FROM post_comments WHERE user_id = $1',
+            [req.user.id]
+        );
+        const total = parseInt(countResult.rows[0].count);
+        return res.status(200).json({
+            posts: result.rows,
+            pagination: { total, limit, offset, hasMore: offset + limit < total },
+        });
+    } catch (err) {
+        console.error('Error fetching commented posts:', err);
+        return res.status(500).json({ message: 'Internal server error.' });
+    }
+});
+
 // POST /api/comment — create a comment (one per user per post)
 // Body: { post_id, content }
 router.post('/comment', authenticateToken, async (req, res) => {
