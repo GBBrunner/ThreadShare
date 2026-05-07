@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .e {
+        fill: #fff;
+      }
+
+      .f {
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 1.83px;
+      }
+    </style>
+  </defs>
+  <g id="c" data-name="Layer 2">
+    <g id="d" data-name="Save-Oultine">
+      <circle class="e" cx="10" cy="10" r="10"/>
+      <path class="f" d="M8.08,4.13h3.85c1.35,0,2.5,1.15,2.5,2.5v8.85c0,.29-.29.48-.58.38l-2.88-1.15c-.58-.29-1.35-.29-1.92,0l-2.79,1.15c-.29.1-.58,0-.58-.38V6.63c0-1.35,1.15-2.5,2.5-2.5h-.1Z"/>
+    </g>
+  </g>
+</svg>

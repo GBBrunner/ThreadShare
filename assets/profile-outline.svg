@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
+  <defs>
+    <style>
+      .d {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 1px;
+      }
+    </style>
+  </defs>
+  <g id="c" data-name="Layer 2">
+    <g>
+      <circle class="d" cx="10.5" cy="6.17" r="5.67"/>
+      <path class="d" d="M1.83,13.17h17.33c.74,0,1.33.6,1.33,1.33v6H.5v-6c0-.74.6-1.33,1.33-1.33Z"/>
+    </g>
+  </g>
+</svg>
