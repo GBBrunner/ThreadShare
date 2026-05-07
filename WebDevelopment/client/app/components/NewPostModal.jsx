@@ -1,7 +1,9 @@
 "use client";
 import { FiUpload } from "react-icons/fi";
 import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { SERVER_URL } from "@/lib/config";
+import { ToastContainer, toast } from "react-toastify";
 
 const COLORS = [
   { name: 'Red', class: 'bg-red-500' },
@@ -24,6 +26,8 @@ const OCCASIONS = ['formal', 'business', 'casual', 'everyday', 'vacation', 'work
 // post prop is provided when editing an existing post; onSaved is called with the updated post
 export default function NewPostModal({ onClose, post = null, onSaved }) {
   const isEditing = !!post;
+  const router = useRouter();
+  const pathname = usePathname();
 
   const [imagePreviews, setImagePreviews] = useState(post?.images ?? []);
   const [imageFiles, setImageFiles] = useState([]);
@@ -52,6 +56,11 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
     e.preventDefault();
     setError("");
 
+    if (imagePreviews.length === 0) {
+      setError("Please upload at least one photo.");
+      return;
+    }
+
     const form = e.currentTarget;
     const formData = new FormData();
     formData.append("title", form["post-title"].value);
@@ -78,8 +87,13 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
 
       if (response.ok) {
         const data = await response.json();
-        if (isEditing && onSaved) onSaved(data.post);
-        else onClose();
+        if (isEditing && onSaved) {
+          onSaved(data.post);
+        } else {
+          toast.success("Post created successfully!");
+          if (pathname === "/my-photos") router.refresh();
+          setTimeout(onClose, 1500);
+        }
       } else {
         let message = isEditing ? "Failed to update post." : "Failed to submit post.";
         try {
@@ -112,6 +126,7 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
               type="text"
               id="post-title"
               defaultValue={post?.title ?? ""}
+              required
               className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter post title"
             />
@@ -212,6 +227,7 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
               <select
                 id="post-condition"
                 defaultValue={post?.condition ?? ""}
+                required
                 className="border border-gray-300 rounded-md py-1.5 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="">Select...</option>
@@ -280,6 +296,7 @@ export default function NewPostModal({ onClose, post = null, onSaved }) {
           </div>
         </form>
       </div>
+      <ToastContainer position="bottom-center" autoClose={1500} hideProgressBar />
     </div>
   );
 }

@@ -106,6 +106,15 @@ export default function MyPhotosPage() {
     }));
   };
 
+  const handleImageError = (imageUrl) => {
+    console.error("Failed to load image:", imageUrl);
+    // Set a default aspect ratio on error to prevent broken layout
+    setAspectRatios((prev) => ({
+      ...prev,
+      [imageUrl]: 1,
+    }));
+  };
+
   return (
     <ProtectedRoute isLoggedIn={!!signed_in_user}>
       <div className="p-6">
@@ -133,9 +142,12 @@ export default function MyPhotosPage() {
                 >
                   {post.images?.[0] ? (
                     <img
-                      src={getResponsiveImageUrl(post.images[0])}
+                      src={post.images[0]}
                       alt={post.title}
                       onLoad={(e) => handleImageLoad(e, imageUrl)}
+                      onError={() => handleImageError(imageUrl)}
+                      crossOrigin="anonymous"
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   ) : (

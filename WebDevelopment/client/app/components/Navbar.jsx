@@ -71,7 +71,7 @@ export default function Navbar({
                     {signed_in_user.username}'s Dashboard
                   </NavLink>
                   <NavLink href="/my-photos" icon={<FaImages />}>
-                    My Photos
+                    My Closet
                   </NavLink>
                   <button
                     className="px-6 py-3 w-full text-lg rounded-xl font-bold border-b-accent-dark bg-accent-dark text-white hover:bg-secondary transition-colors flex items-center gap-2"

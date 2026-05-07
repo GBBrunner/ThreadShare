@@ -8,7 +8,6 @@
  * - w_${width}: Max width
  * - h_auto: Maintain aspect ratio
  * - c_limit: Don't upscale small images
- * - q_auto: Auto quality optimization
  */
 export const getResponsiveImageUrl = (cloudinaryUrl, width = 800) => {
   if (!cloudinaryUrl) return cloudinaryUrl;
@@ -20,7 +19,7 @@ export const getResponsiveImageUrl = (cloudinaryUrl, width = 800) => {
   
   return cloudinaryUrl.replace(
     /\/upload\//,
-    `/upload/w_${width},h_auto,c_limit,q_auto/`
+    `/upload/w_${width},h_auto,c_limit/`
   );
 };
 
