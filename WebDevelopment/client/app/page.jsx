@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import LoadingScreen from "@/app/components/LoadingScreen";
+import { useAuth } from "@/app/auth/useAuth";
 import { SERVER_URL } from "@/lib/config";
 import { constrainAspectRatio } from "@/lib/imageUtils";
-import { FaHeart, FaComment } from "react-icons/fa";
+import Image from "next/image";
+import { FaComment } from "react-icons/fa";
 
 export default function HomePage() {
+  const { signed_in_user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -14,6 +19,7 @@ export default function HomePage() {
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [eagerLoadTriggered, setEagerLoadTriggered] = useState(false);
+  const [likedPostIds, setLikedPostIds] = useState(new Set());
   const [filters, setFilters] = useState({
     category: null,
     condition: null,
@@ -24,6 +30,17 @@ export default function HomePage() {
   useEffect(() => {
     fetchPosts(0);
   }, [filters]);
+
+  useEffect(() => {
+    if (!signed_in_user) return;
+    const token = localStorage.getItem("auth_token");
+    fetch(`${SERVER_URL}/api/favorite-items`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => r.json())
+      .then((data) => setLikedPostIds(new Set(data.likedPostIds || [])))
+      .catch(() => {});
+  }, [signed_in_user]);
 
   // Intersection Observer for eager loading
   useEffect(() => {
@@ -50,7 +67,6 @@ export default function HomePage() {
         offset: newOffset,
       });
 
-      // Add filter params if set
       if (filters.category) queryParams.append('category', filters.category);
       if (filters.condition) queryParams.append('condition', filters.condition);
       if (filters.occasions.length > 0) {
@@ -102,6 +118,60 @@ export default function HomePage() {
     }
   };
 
+  const handleFavorite = async (e, postId) => {
+    e.stopPropagation();
+    if (!signed_in_user) {
+      toast.info("Please sign in to favorite");
+      return;
+    }
+    const token = localStorage.getItem("auth_token");
+    const isLiked = likedPostIds.has(postId);
+
+    // Optimistic update
+    setLikedPostIds((prev) => {
+      const next = new Set(prev);
+      isLiked ? next.delete(postId) : next.add(postId);
+      return next;
+    });
+    setPosts((prev) =>
+      prev.map((p) =>
+        p.id === postId ? { ...p, likesCount: p.likesCount + (isLiked ? -1 : 1) } : p
+      )
+    );
+
+    try {
+      const res = await fetch(
+        `${SERVER_URL}/api/favorite-item${isLiked ? `/${postId}` : ""}`,
+        {
+          method: isLiked ? "DELETE" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: isLiked ? undefined : JSON.stringify({ post_id: postId }),
+        }
+      );
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setPosts((prev) =>
+        prev.map((p) => (p.id === postId ? { ...p, likesCount: data.likesCount } : p))
+      );
+    } catch {
+      // Revert optimistic update on failure
+      setLikedPostIds((prev) => {
+        const next = new Set(prev);
+        isLiked ? next.add(postId) : next.delete(postId);
+        return next;
+      });
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === postId ? { ...p, likesCount: p.likesCount + (isLiked ? 1 : -1) } : p
+        )
+      );
+      toast.error("Something went wrong. Try again.");
+    }
+  };
+
   const handleImageLoad = (e, imageUrl) => {
     const img = e.target;
     const naturalRatio = img.naturalWidth / img.naturalHeight;
@@ -122,9 +192,10 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-white">
+      <ToastContainer position="bottom-center" autoClose={3000} />
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Discover</h1>
+          <h1 className="text-4xl font-bold">Discover</h1>
         </div>
 
         {loading ? (
@@ -137,6 +208,7 @@ export default function HomePage() {
               {posts.map((post) => {
                 const imageUrl = post.images?.[0];
                 const aspectRatio = imageUrl ? aspectRatios[imageUrl] : null;
+                const isLiked = likedPostIds.has(post.id);
                 return (
                   <div
                     key={post.id}
@@ -170,11 +242,22 @@ export default function HomePage() {
                       )}
                     </div>
 
-                    {/* Engagement badges on hover */}
-                    <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs shadow">
-                        <FaHeart size={12} className="text-red-500" /> 0
-                      </div>
+                    {/* Heart button — always visible */}
+                    <button
+                      onClick={(e) => handleFavorite(e, post.id)}
+                      className="absolute top-2 right-2 flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs shadow hover:scale-110 transition-transform"
+                    >
+                      <Image
+                        src={isLiked ? "/heart-circle-filled.svg" : "/heart-circle-outline.svg"}
+                        alt={isLiked ? "Unlike" : "Like"}
+                        width={20}
+                        height={20}
+                      />
+                      {post.likesCount > 0 && <span>{post.likesCount}</span>}
+                    </button>
+
+                    {/* Comment badge — visible on hover */}
+                    <div className="absolute top-2 left-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                       <div className="flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs shadow">
                         <FaComment size={12} className="text-blue-500" /> 0
                       </div>
